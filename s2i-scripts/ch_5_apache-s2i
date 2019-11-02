@@ -1,0 +1,57 @@
+b custom-s2i start
+  443  oc project
+  444  source /usr/local/etc/ocp4.config
+  445   oc login -u ${RHT_OCP4_DEV_USER}    -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  446  oc project
+  447  source /usr/local/etc/ocp4.config
+  448  oc project
+  449  source /usr/local/etc/ocp4.config
+  450  oc project$
+  451  oc project
+  452  oc project[1;5A
+  453  ls
+  454  history
+  455  source /usr/local/etc/ocp4.config
+  456   oc login -u ${RHT_OCP4_DEV_USER}    -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  457  lab apache-s2i start
+  458  s2i version
+  459  s2i create s2i-do288-httpd s2i-do88-httpd
+  460  tree s2i-do288-httpd
+  461  s2i create s2i-do288-httpd s2i-do288-httpd
+  462  tree s2i-do288-httpd
+  463  vi s2i-do288-httpd/Dockerfile 
+  464  cp ~/DO288/labs/apache-s2i/Dockerfile ~/s2i-do288-httpd/
+  465  cp -h
+  466  cp --help
+  467  cp -Rv ~/DO288/labs/apache-s2i/s2i ~/s2i-do288-httpd/
+  468  vi /home/student/s2i-do288-httpd/s2i/bin/usage
+  469  vi /home/student/s2i-do288-httpd/s2i/bin/assemble
+  470  vi /home/student/s2i-do288-httpd/s2i/bin/run
+  471  vi /home/student/s2i-do288-httpd/s2i/bin/assemble
+  472  rm -f ~/s2i-do288-httpd/s2i/bin/save-artifacts
+  473  cd s2i-do288-httpd/
+  474  sudo podman build -t s2i-do288-httpd .
+  475  ls
+  476  s2i build --help
+  477  s2i build test s2i-do288-httpd test-httpd --dry-run
+  478  ls -R test
+  479  cat test/test-app
+  480  ls test/test-app
+  481  cat test/test-app/index.html 
+  482  vi test/test-app/index.html 
+  483  s2i build test/test-app/ s2i-do288-httpd test-httpd --as-dockerfile test --dry-run
+  484  mkdir -p s2i-sample-app
+  485  s2i build test/test-app/ s2i-do288-httpd s2i-sample-app --as-dockerfile s2i-sample-app
+  486  s2i build test/test-app/ s2i-do288-httpd s2i-sample-app --as-dockerfile s2i-sample-app/Dockerfile
+  487  cd s2i-sample-app/
+  488  sudo podman build -t s2i-sample-app .
+  489  sudo podman images
+  490  sudo podman run --name sample-app s2i-sample-app
+  491  sudo podman run --name sample-app -d -p 8080:8080  s2i-sample-app
+  492  sudo podman run --name sample-app -d -p 8080:8080  s2i-sample-app-2
+  493  sudo podman run --name sample-app2 -d -p 8080:8080  s2i-sample-app
+  494  curl localhost:8080
+  495  ls
+  496  cd ..
+  497  tree s2i-sample-app
+  498  vi s2i-sample-app/Dockerfile

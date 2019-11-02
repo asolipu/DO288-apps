@@ -1,0 +1,94 @@
+ource /usr/local/etc/ocp4.config
+  456   oc login -u ${RHT_OCP4_DEV_USER}    -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  457  lab apache-s2i start
+  458  s2i version
+  459  s2i create s2i-do288-httpd s2i-do88-httpd
+  460  tree s2i-do288-httpd
+  461  s2i create s2i-do288-httpd s2i-do288-httpd
+  462  tree s2i-do288-httpd
+  463  vi s2i-do288-httpd/Dockerfile 
+  464  cp ~/DO288/labs/apache-s2i/Dockerfile ~/s2i-do288-httpd/
+  465  cp -h
+  466  cp --help
+  467  cp -Rv ~/DO288/labs/apache-s2i/s2i ~/s2i-do288-httpd/
+  468  vi /home/student/s2i-do288-httpd/s2i/bin/usage
+  469  vi /home/student/s2i-do288-httpd/s2i/bin/assemble
+  470  vi /home/student/s2i-do288-httpd/s2i/bin/run
+  471  vi /home/student/s2i-do288-httpd/s2i/bin/assemble
+  472  rm -f ~/s2i-do288-httpd/s2i/bin/save-artifacts
+  473  cd s2i-do288-httpd/
+  474  sudo podman build -t s2i-do288-httpd .
+  475  ls
+  476  s2i build --help
+  477  s2i build test s2i-do288-httpd test-httpd --dry-run
+  478  ls -R test
+  479  cat test/test-app
+  480  ls test/test-app
+  481  cat test/test-app/index.html 
+  482  vi test/test-app/index.html 
+  483  s2i build test/test-app/ s2i-do288-httpd test-httpd --as-dockerfile test --dry-run
+  484  mkdir -p s2i-sample-app
+  485  s2i build test/test-app/ s2i-do288-httpd s2i-sample-app --as-dockerfile s2i-sample-app
+  486  s2i build test/test-app/ s2i-do288-httpd s2i-sample-app --as-dockerfile s2i-sample-app/Dockerfile
+  487  cd s2i-sample-app/
+  488  sudo podman build -t s2i-sample-app .
+  489  sudo podman images
+  490  sudo podman run --name sample-app s2i-sample-app
+  491  sudo podman run --name sample-app -d -p 8080:8080  s2i-sample-app
+  492  sudo podman run --name sample-app -d -p 8080:8080  s2i-sample-app-2
+  493  sudo podman run --name sample-app2 -d -p 8080:8080  s2i-sample-app
+  494  curl localhost:8080
+  495  ls
+  496  cd ..
+  497  tree s2i-sample-app
+  498  vi s2i-sample-app/Dockerfile 
+  499  history
+  500  git repo
+  501  git status
+  502  cd ~
+  503  cd DO288-apps/
+  504  git status
+  505  git branch -r
+  506  ls
+  507  cd s2i-scripts
+  508  ls
+  509  mkdir command-history
+  510  vi ch_5_apache-s2i
+  511  cd ~
+  512  sudo podman images
+  513  oc project
+  514  sudo podman ps
+  515  sudo podman stop sample-app2
+  516  sudo podman rm sample-app
+  517  sudo podman ps
+  518  sudo podman login  -u ${RHT_OCP4_QUAY_USER} quay.io
+  519  sudo skopeo copy containers-storage:localhost/s2i-do288-httpd docker://quay.io/${RHT_OCP4_QUAY_USER}/s2i-do288-httpd
+  520  ls
+  521  oc project
+  522  cat /usr/local/etc/ocp4.config
+  523  oc login -u $RHT_OCP4_DEV_USER -p RHT_OCP4_DEV_PASSWORD RHT_OCP4_MASTER_API
+  524  oc new-project $RHT_OCP4_DEV_USER-apacher-s2i
+  525  oc import-image s2i-do288-httpd --from quay.io/${RHT_OCP4_DEV_USER}/s2i-do288-httpd --confirm
+  526  podman login -u asolipu quay.io
+  527  oc create secret generic quayio --from-file .dockerconfigjson=${XDG_RUNTIME_DIR}/containers/auth.json --type kubernetes.io/dockerconfigjson
+  528  oc secrets link builder quayio
+  529  oc get is
+  530  oc delete is s2i-do288-httpd
+  531  history
+  532  oc import-image s2i-do288-httpd --from quay.io/${RHT_OCP4_DEV_USER}/s2i-do288-httpd --confirm
+  533  oc delete is s2i-do288-httpd
+  534  oc import-image s2i-do288-httpd --from quay.io/${RHT_OCP4_QUAY_USER}/s2i-do288-httpd --confirm
+  535  oc get is
+  536  oc new-app --name hello s2i-do288-httpd~https://github.com/asolipu/DO288-app --context-dir-html-helloworld
+  537  oc new-app --name hello s2i-do288-httpd~https://github.com/asolipu/DO288-apps --context-dir=html-helloworld
+  538  oc get status
+  539  oc status
+  540  oc expose svc/hello
+  541  oc get route
+  542  curl http://hello-archana-solipuram-ally-com-apacher-s2i.apps.ocp-na1.prod.nextcle.com:8080
+  543  curl http://hello-archana-solipuram-ally-com-apacher-s2i.apps.ocp-na1.prod.nextcle.com
+  544  oc get pods
+  545  curl http://hello-archana-solipuram-ally-com-apacher-s2i.apps.ocp-na1.prod.nextcle.com
+  546  curl http://hello-archana-solipuram-ally-com-apacher-s2i.apps.ocp-na1.prod.nextcle.com:8080
+  547  history
+
