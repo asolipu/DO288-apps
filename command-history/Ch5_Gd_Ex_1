@@ -1,0 +1,17 @@
+    1  lab s2i-scripts start
+    4  sudo podman run --name apache24 -it rhscl/httpd-24-rhel7  bash
+    8  skopeo inspect docker://registry.access.redhat.com/rhscl/httpd-24-rhel7 | grep s2i.scripts-url
+   13  cd ~/DO288-apps/
+   14  cd s2i-scripts/
+## custom s2i scripts are .s2i/bin folder in the git repo master branch
+   18  ls -aR 
+   20  oc new-project ${RHT_OCP4_DEV_USER}-s2i-scripts
+   24  oc new-app --name bonjour httpd:2.4~https://github.com/asolipu/DO288-apps --context-dir=s2i-scripts
+   25  oc logs -f bc/bonjour
+   27  oc get pods
+   28  oc expose svc/bonjour
+   29  oc get route
+   31  curl bonjour-archana-solipuram-ally-com-s2i-scripts.apps.ocp-na1.prod.nextcle.com
+   32  oc delete project archana-solipuram-ally-com-s2i-scripts
+   35  sudo podman rm apache24
+   37  history >Ch5_Gd_Ex_1
