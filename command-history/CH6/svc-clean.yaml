@@ -1,0 +1,64 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2019-11-03T13:58:16Z"
+    labels:
+      app: quotesapi
+    name: quotesapi
+    namespace: archana-solipuram-ally-com-quotes-dev
+    resourceVersion: "36336510"
+    selfLink: /api/v1/namespaces/archana-solipuram-ally-com-quotes-dev/services/quotesapi
+    uid: fc0593e5-fe41-11e9-b0dc-02bc9323208e
+  spec:
+    clusterIP: 172.30.207.115
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      app: quotesapi
+      deploymentconfig: quotesapi
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2019-11-03T13:57:38Z"
+    labels:
+      app: quotesdb
+    name: quotesdb
+    namespace: archana-solipuram-ally-com-quotes-dev
+    resourceVersion: "36336196"
+    selfLink: /api/v1/namespaces/archana-solipuram-ally-com-quotes-dev/services/quotesdb
+    uid: e554774e-fe41-11e9-b11c-12bd13d94826
+  spec:
+    clusterIP: 172.30.41.31
+    ports:
+    - name: 3306-tcp
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+    selector:
+      app: quotesdb
+      deploymentconfig: quotesdb
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

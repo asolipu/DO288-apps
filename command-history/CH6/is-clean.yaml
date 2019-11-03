@@ -1,0 +1,70 @@
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2019-11-03T13:58:16Z"
+    generation: 1
+    labels:
+      app: quotesapi
+    name: quotesapi
+    namespace: archana-solipuram-ally-com-quotes-dev
+    resourceVersion: "36337255"
+    selfLink: /apis/image.openshift.io/v1/namespaces/archana-solipuram-ally-com-quotes-dev/imagestreams/quotesapi
+    uid: fbeb6561-fe41-11e9-b0f4-0a580a80009a
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: image-registry.openshift-image-registry.svc:5000/archana-solipuram-ally-com-quotes-dev/quotesapi
+    publicDockerImageRepository: default-route-openshift-image-registry.apps.ocp-na1.prod.nextcle.com/archana-solipuram-ally-com-quotes-dev/quotesapi
+    tags:
+    - items:
+      - created: "2019-11-03T14:00:32Z"
+        dockerImageReference: image-registry.openshift-image-registry.svc:5000/archana-solipuram-ally-com-quotes-dev/quotesapi@sha256:6cdbf48901455e67fe8409a51055b3fa88b9e2036ce58616c9e16e4df5025732
+        generation: 1
+        image: sha256:6cdbf48901455e67fe8409a51055b3fa88b9e2036ce58616c9e16e4df5025732
+      tag: latest
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/image.dockerRepositoryCheck: "2019-11-03T13:57:38Z"
+    creationTimestamp: "2019-11-03T13:57:38Z"
+    generation: 2
+    name: quotesdb
+    namespace: archana-solipuram-ally-com-quotes-dev
+    resourceVersion: "36336197"
+    selfLink: /apis/image.openshift.io/v1/namespaces/archana-solipuram-ally-com-quotes-dev/imagestreams/quotesdb
+    uid: e543efee-fe41-11e9-b41a-0a580a8200fe
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: image-registry.openshift-image-registry.svc:5000/openshift/mysql:5.7
+      generation: 2
+      importPolicy: {}
+      name: "5.7"
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: image-registry.openshift-image-registry.svc:5000/archana-solipuram-ally-com-quotes-dev/quotesdb
+    publicDockerImageRepository: default-route-openshift-image-registry.apps.ocp-na1.prod.nextcle.com/archana-solipuram-ally-com-quotes-dev/quotesdb
+    tags:
+    - conditions:
+      - generation: 2
+        lastTransitionTime: "2019-11-03T13:57:38Z"
+        message: 'Internal error occurred: Get https://image-registry.openshift-image-registry.svc:5000/v2/:
+          x509: certificate signed by unknown authority'
+        reason: InternalError
+        status: "False"
+        type: ImportSuccess
+      items: null
+      tag: "5.7"
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
