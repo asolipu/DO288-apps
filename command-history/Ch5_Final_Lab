@@ -673,3 +673,35 @@
   673  history
   674  exit
   675  history > ~/command-history/Ch5_Final_Lab
+##### copy the commands from work laptop here of same file  #######
+
+
+
+#############
+ curl http://greet-archana-solipuram-ally-com-custom-s2i.apps.ocp-na1.prod.nextcle.com/user1
+  713  vi /.s2i/bin/run
+  714  cd .s2i
+  715  cd bin
+  716  vi run
+  717  oc get pods
+  718  oc rsh greet-1-wlwdw  bash
+  719  oc exec -it greet-1-wlwdw cat /usr/libexec.s2i/run
+  720  oc exec -it greet-1-wlwdw cat /usr/libexec/s2i/run
+  721  rm run
+  722  vi run
+  723  git status
+  724  git add .
+  725  ls
+  726  git status
+  727  git commit -am "Modify s2i workflow of the go builder image"
+  728  git push
+  729  oc start-build bc/greet -f
+  730  oc start-build bc/greet -F
+  731  history
+  732  curl http://greet-archana-solipuram-ally-com-custom-s2i.apps.ocp-na1.prod.nextcle.com/user1
+  733  oc delete project ${RHT_OCP4_DEV_USER}-custom-s2i
+  734   sudo podman rm go-test
+  735   sudo podman rmi -f $(sudo podman images -aq)
+  736  lab custom-s2i finish
+  737  history
+
