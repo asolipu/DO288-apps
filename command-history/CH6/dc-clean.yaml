@@ -1,210 +1,138 @@
-apiVersion: v1
-items:
-- apiVersion: apps.openshift.io/v1
-  kind: DeploymentConfig
-  metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: "2019-11-03T13:58:16Z"
-    generation: 2
-    labels:
-      app: quotesapi
-    name: quotesapi
-    namespace: archana-solipuram-ally-com-quotes-dev
-    resourceVersion: "36337414"
-    selfLink: /apis/apps.openshift.io/v1/namespaces/archana-solipuram-ally-com-quotes-dev/deploymentconfigs/quotesapi
-    uid: fbfd3637-fe41-11e9-b41a-0a580a8200fe
-  spec:
-    replicas: 1
-    revisionHistoryLimit: 10
-    selector:
-      app: quotesapi
-      deploymentconfig: quotesapi
-    strategy:
-      activeDeadlineSeconds: 21600
-      resources: {}
-      rollingParams:
-        intervalSeconds: 1
-        maxSurge: 25%
-        maxUnavailable: 25%
-        timeoutSeconds: 600
-        updatePeriodSeconds: 1
-      type: Rolling
-    template:
-      metadata:
-        annotations:
-          openshift.io/generated-by: OpenShiftNewApp
-        creationTimestamp: null
-        labels:
-          app: quotesapi
-          deploymentconfig: quotesapi
-      spec:
-        containers:
-        - env:
-          - name: DATABASE_NAME
-            value: quotesdb
-          - name: DATABASE_PASSWORD
-            value: redhat
-          - name: DATABASE_SERVICE_NAME
-            value: quotesdb
-          - name: DATABASE_USER
-            value: quoteapp
-          image: image-registry.openshift-image-registry.svc:5000/archana-solipuram-ally-com-quotes-dev/quotesapi@sha256:6cdbf48901455e67fe8409a51055b3fa88b9e2036ce58616c9e16e4df5025732
-          imagePullPolicy: Always
-          name: quotesapi
-          ports:
-          - containerPort: 8080
-            protocol: TCP
-          - containerPort: 8443
-            protocol: TCP
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-        dnsPolicy: ClusterFirst
-        restartPolicy: Always
-        schedulerName: default-scheduler
-        securityContext: {}
-        terminationGracePeriodSeconds: 30
-    test: false
-    triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - quotesapi
-        from:
-          kind: ImageStreamTag
-          name: quotesapi:latest
-          namespace: archana-solipuram-ally-com-quotes-dev
-        lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/archana-solipuram-ally-com-quotes-dev/quotesapi@sha256:6cdbf48901455e67fe8409a51055b3fa88b9e2036ce58616c9e16e4df5025732
-      type: ImageChange
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2019-11-03T14:00:50Z"
-      lastUpdateTime: "2019-11-03T14:00:50Z"
-      message: Deployment config has minimum availability.
-      status: "True"
-      type: Available
-    - lastTransitionTime: "2019-11-03T14:00:51Z"
-      lastUpdateTime: "2019-11-03T14:00:51Z"
-      message: replication controller "quotesapi-1" successfully rolled out
-      reason: NewReplicationControllerAvailable
-      status: "True"
-      type: Progressing
-    details:
-      causes:
-      - type: ConfigChange
-      message: config change
-    latestVersion: 1
-    observedGeneration: 2
-    readyReplicas: 1
-    replicas: 1
-    unavailableReplicas: 0
-    updatedReplicas: 1
-- apiVersion: apps.openshift.io/v1
-  kind: DeploymentConfig
-  metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: "2019-11-03T13:57:38Z"
-    generation: 3
-    labels:
-      app: quotesdb
-    name: quotesdb
-    namespace: archana-solipuram-ally-com-quotes-dev
-    resourceVersion: "36336498"
-    selfLink: /apis/apps.openshift.io/v1/namespaces/archana-solipuram-ally-com-quotes-dev/deploymentconfigs/quotesdb
-    uid: e54c004b-fe41-11e9-b41a-0a580a8200fe
-  spec:
-    replicas: 1
-    revisionHistoryLimit: 10
-    selector:
-      app: quotesdb
-      deploymentconfig: quotesdb
-    strategy:
-      activeDeadlineSeconds: 21600
-      resources: {}
-      rollingParams:
-        intervalSeconds: 1
-        maxSurge: 25%
-        maxUnavailable: 25%
-        timeoutSeconds: 600
-        updatePeriodSeconds: 1
-      type: Rolling
-    template:
-      metadata:
-        annotations:
-          openshift.io/generated-by: OpenShiftNewApp
-        creationTimestamp: null
-        labels:
-          app: quotesdb
-          deploymentconfig: quotesdb
-      spec:
-        containers:
-        - env:
-          - name: MYSQL_DATABASE
-            value: quotesdb
-          - name: MYSQL_PASSWORD
-            value: redhat
-          - name: MYSQL_USER
-            value: quoteapp
-          image: image-registry.openshift-image-registry.svc:5000/openshift/mysql@sha256:225ccc7a059a8e615ce3e5f4aa6fae507a9e03b4562dccf3a98b09ff69bcdeb7
-          imagePullPolicy: IfNotPresent
-          name: quotesdb
-          ports:
-          - containerPort: 3306
-            protocol: TCP
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-        dnsPolicy: ClusterFirst
-        restartPolicy: Always
-        schedulerName: default-scheduler
-        securityContext: {}
-        terminationGracePeriodSeconds: 30
-        volumes:
-        - name: quotesdb-volume-1
-          persistentVolumeClaim:
-            claimName: quotesdb-claim
-    test: false
-    triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - quotesdb
-        from:
-          kind: ImageStreamTag
-          name: mysql:5.7
-          namespace: openshift
-        lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/openshift/mysql@sha256:225ccc7a059a8e615ce3e5f4aa6fae507a9e03b4562dccf3a98b09ff69bcdeb7
-      type: ImageChange
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2019-11-03T13:58:14Z"
-      lastUpdateTime: "2019-11-03T13:58:14Z"
-      message: Deployment config has minimum availability.
-      status: "True"
-      type: Available
-    - lastTransitionTime: "2019-11-03T13:58:15Z"
-      lastUpdateTime: "2019-11-03T13:58:15Z"
-      message: replication controller "quotesdb-1" successfully rolled out
-      reason: NewReplicationControllerAvailable
-      status: "True"
-      type: Progressing
-    details:
-      causes:
-      - type: ConfigChange
-      message: config change
-    latestVersion: 1
-    observedGeneration: 3
-    readyReplicas: 1
-    replicas: 1
-    unavailableReplicas: 0
-    updatedReplicas: 1
-kind: List
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
 metadata:
-  resourceVersion: ""
-  selfLink: ""
+  annotations:
+  labels:
+    app: quotesapi
+  name: quotesapi
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    app: quotesapi
+    deploymentconfig: quotesapi
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        app: quotesapi
+        deploymentconfig: quotesapi
+    spec:
+      containers:
+      - env:
+        - name: DATABASE_NAME
+          value: quotesdb
+        - name: DATABASE_PASSWORD
+          value: redhat
+        - name: DATABASE_SERVICE_NAME
+          value: quotesdb
+        - name: DATABASE_USER
+          value: quoteapp
+        imagePullPolicy: Always
+        name: quotesapi
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - quotesapi
+      from:
+        kind: ImageStreamTag
+        name: quotesapi:latest
+        namespace: archana-solipuram-ally-com-quotes-dev
+      type: ImageChange
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: quotesdb
+  name: quotesdb
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    app: quotesdb
+    deploymentconfig: quotesdb
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        app: quotesdb
+        deploymentconfig: quotesdb
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          value: quotesdb
+        - name: MYSQL_PASSWORD
+          value: redhat
+        - name: MYSQL_USER
+          value: quoteapp
+        image: image-registry.openshift-image-registry.svc:5000/openshift/mysql@sha256:225ccc7a059a8e615ce3e5f4aa6fae507a9e03b4562dccf3a98b09ff69bcdeb7
+        imagePullPolicy: IfNotPresent
+        name: quotesdb
+        ports:
+        - containerPort: 3306
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: quotesdb-volume-1
+        persistentVolumeClaim:
+          claimName: quotesdb-claim
+  test: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - quotesdb
+      from:
+        kind: ImageStreamTag
+        name: mysql:5.7
+        namespace: openshift
+    type: ImageChange
