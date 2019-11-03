@@ -1,3 +1,63 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: quotes  
+  annotations:
+    openshift.io/display-name: Quotes Application
+    description: The Quotes application provides an HTTP API that returns a random, funny quote. 
+    iconClass: icon-php    
+    tags: php,mysql
+objects:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+    labels:
+      app: quotesapi
+    name: quotesapi
+  spec:
+    lookupPolicy:
+      local: false
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      labels:
+      app: quotesapi
+    name: quotesapi
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: quotesapi:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: quotes
+      git:
+        uri: https://github.com/asolipu/DO288-apps
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: php:7.2
+          namespace: openshift
+      type: Source
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: obiyIumCtwt43Fu4nV0d
+      type: GitHub
+    - generic:
+        secret: go4P0f0HzRJbbYbZy4VF
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+      type: ImageChange
 - apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
@@ -131,4 +191,73 @@
           kind: ImageStreamTag
           name: mysql:5.7
           namespace: openshift
-      type: ImageChange
+      type: ImageChange- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+  labels:
+      app: quotesapi
+    name: quotesapi
+  spec:
+    clusterIP: 172.30.207.115
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      app: quotesapi
+      deploymentconfig: quotesapi
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+    labels:
+      app: quotesdb
+    name: quotesdb
+  spec:
+    clusterIP: 172.30.41.31
+    ports:
+    - name: 3306-tcp
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+    selector:
+      app: quotesdb
+      deploymentconfig: quotesdb
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+    labels:
+      app: quotesapi
+    name: quotesapi
+  spec:
+    host: 
+    port:
+      targetPort: 8080-tcp
+    subdomain: ""
+  to:
+    kind: Service
+    name: quotesapi
+    weight: 100
+  wildcardPolicy: None
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+    name: quotesdb-claim
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 300Mi
