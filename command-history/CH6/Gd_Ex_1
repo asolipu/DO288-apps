@@ -1,0 +1,40 @@
+  978  lab create-template start
+  799  source /usr/local/etc/ocp4.config
+  800  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  801  oc project ${RHT_OCP4_DEV_USER}-quotes-dev
+  802  oc get pvc
+  803  oc get route
+  804  oc get pods
+  805  vi quotes-template-clean.yaml
+  826  oc get bc -o yaml --export > /tmp/bc.yaml
+  829  cp /tmp/bc.yaml /tmp/bc-clean.yaml 
+  830  cp /tmp/bc.yaml bc-clean.yaml
+  831   oc get -o yaml --export dc > /tmp/dc.yaml
+  832  cp /tmp/dc.yaml /tmp/dc-clean.yaml
+  833  cp /tmp/dc.yaml dc-clean.yaml
+  834   oc get -o yaml --export svc > /tmp/svc.yaml
+  835  cp /tmp/svc.yaml /tmp/svc-clean.yaml
+  836  cp /tmp/svc.yaml svc-clean.yaml
+  837  oc get -o yaml --export route > /tmp/route.yaml
+  838  cp /tmp/route.yaml /tmp/route-clean.yaml
+  839  cp /tmp/route.yaml route-clean.yaml
+  840  oc get -o yaml --export pvc > /tmp/pvc.yaml
+  841  cp /tmp/pvc.yaml /tmp/pvc-clean.yaml
+  842  cp /tmp/pvc.yaml pvc-clean.yaml
+  897  vi is-clean.yaml 
+  906  vi ~/DO288/labs/create-template/is-clean.yaml
+  911  vi ~/DO288/labs/create-template/svc-clean.yaml
+  912  vi ~/DO288/labs/create-template/quotes-template-clean.yaml 
+  915  cd command-history/CH6/
+  919  cp quotes-template-clean.yaml quotes-template.yaml
+  921  cat ~/DO288/labs/create-template/parameters.yaml >> quotes-template.yaml 
+  922  vim quotes-template.yaml 
+  925  vi ~/DO288/solutions/create-template/quotes-template.yaml 
+  926  vim quotes-template.yaml 
+  938  oc new-project ${RHT_OCP4_DEV_USER}-myquotes
+  939  history
+  943  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass --dry-run
+  968  oc delete all -l app=quotesapi
+  969  oc delete all -l app=quotesdb
+  971  oc delete pvc quotesdb-claim
+  972  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass
