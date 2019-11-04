@@ -1,0 +1,59 @@
+   97  vi todo-template.yaml 
+  998  history > log
+  999  vi log
+ 1000  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+ 1001  vi log
+ 1002  source /usr/local/etc/ocp4.config
+ 1003  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+ 1004  oc new-project ${RHT_OCP4_DEV_USER}-review-template
+ 1005  vi ~/DO288/labs/review-template/oc-new-app.sh 
+ 1006  vi todo-template.yaml 
+ 1007  cp todo-template.yaml ~
+ 1008  ls -lrt ~/todo-template.yaml 
+ 1009  cp  ~/DO288/labs/review-template/oc-new-app.sh ~
+ 1010  vi ~/oc-new-app.sh 
+ 1011  ~/oc-new-app.sh 
+ 1012  ~19
+ 1013  source /usr/local/etc/ocp4.config
+ 1014  vi  /usr/local/etc/ocp4.config
+ 1015  vi ~/oc-new-app.sh 
+ 1016  oc delete all -l app=todo
+ 1017  oc get all
+ 1018  oc delete all -l app=todoapp
+ 1019  oc get all
+ 1020  oc delete all -l app=tododb
+ 1021  oc get all
+ 1022  oc get pods
+ 1023  ~/oc-new-app.sh 
+ 1024  history
+ 1025  source /usr/local/etc/ocp4.config
+ 1026  vi /usr/local/etc/ocp4.config
+ 1027  echo $RHT_OCP4_WILDCARD_DOMAIN
+ 1028  vi ~/oc-new-app.sh 
+ 1029  oc delete all -l app=todo
+ 1030  oc delete all -l app=todoapp
+ 1031  oc delete all -l app=tododb
+ 1032  oc get all
+ 1033  ~/oc-new-app.sh 
+ 1034  oc delete all -l app=todoapp
+ 1035  oc delete all -l app=tododb
+ 1036  vi ~/oc-new-app.sh 
+ 1037   ~/oc-new-app.sh 
+ 1038  oc get pods
+ 1039  curl http://archana-solipuram-ally-com-todo.apps.ocp-na1.prod.nextcle.com/todo/index.html
+ 1040  oc get pods
+ 1041  oc logs tododb-1-lgxgv
+ 1042  curl http://archana-solipuram-ally-com-todo.apps.ocp-na1.prod.nextcle.com/todo/api/items-count
+ 1043  lab review-template grade
+ 1044  oc status
+ 1045  git status
+ 1046  ls
+ 1047  cp ~/oc-new-app.sh .
+ 1048  git status
+ 1049  rm log
+ 1050  git add .
+ 1051  git status
+ 1052  git branch
+ 1053  git commit -am WIP
+ 1054  git push
+ 1055  history > CH6_Lab
