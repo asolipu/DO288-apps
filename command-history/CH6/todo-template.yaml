@@ -44,7 +44,7 @@ objects:
       sourceStrategy:
         env:
         - name: npm_config_registry
-          value: http://INVALIDHOST.NODOMAIN.NUL
+          value: ${NPM_PROXY}
         from:
           kind: ImageStreamTag
           name: nodejs:6
@@ -160,7 +160,7 @@ objects:
           - name: MYSQL_DATABASE
             value: tododb
           - name: MYSQL_PASSWORD
-            value: FIXEDPASSWD
+            value: ${PASSWORD}
           - name: MYSQL_USER
             value: todoapp
           imagePullPolicy: IfNotPresent
@@ -237,7 +237,7 @@ objects:
       app: todoapp
     name: todoapp
   spec:
-    host: http://INVALIDHOST.NODOMAIN.NUL
+    host: ${HOSTNAME}
     port:
       targetPort: 8080-tcp
     to:
@@ -258,8 +258,17 @@ parameters:
   displayName: Npm proxy server URL
   description: URL to a server that provides npm dependencies
   required: true
+- name: CLEAN_DATABASE
+  displayName: database flag
+  description: flag which indicates if db needs to be init
+  required: true
 - name: SECRET
   displayName: Webhook Secret
   description: Secret for webhooks
   generate: expression
-  from: '[a-zA-Z0-9]{40}'
+  from: '[a-zA-Z0-9]{48}'
+- name: PASSWORD
+  displayName: db password
+  description: db password
+  generate: expression
+  from: '[a-zA-Z0-9]{18}'
