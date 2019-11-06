@@ -1,0 +1,1000 @@
+    4  oc login -u ${; RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+    5  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+    6  sudo yum install jq
+    7  rpm -qa jq
+    8  oc new-project ${RHT_OCP4_DEV_USER}-source-build
+    9  oc new-app --name greet https://github.com/yourgithubuser/DO288-apps/nodejs-helloworld  --build-env npm_config_registry=http://nexus-common.apps.cluster.domain.example.com/repository/nodejs
+   10  oc new-app --name greet https://github.com/asolipu/DO288-apps/nodejs-helloworld --build-env npm_config_registry=http://nexus-common.apps.cluster.domain.example.com/repository/nodejs
+   11  oc new-app --name greet https://github.com/asolipu/DO288-apps/nodejs-helloworld#source-build --build-env npm_config_registry=http://nexus-common.apps.cluster.domain.example.com/repository/nodejs
+   12  oc new-app --name greet nodejs:10 https://github.com/asolipu/DO288-apps#source-build --context-dir=nodejs-helloworld--build-env npm_config_registry=http://nexus-common.apps.cluster.domain.example.com/repository/nodejs
+   13  git push -u origin source-build
+   14  oc new-app --name greet nodejs:10 https://github.com/asolipu/DO288-apps#source-build --context-dir=nodejs-helloworld--build-env npm_config_registry=http://nexus-common.apps.cluster.domain.example.com/repository/nodejs
+   15  oc new-app --name greet nodejs:10 https://github.com/asolipu/DO288-apps#source-build --context-dir=nodejs-helloworld --build-env npm_config_registry=http://nexus-common.apps.cluster.domain.example.com/repository/nodejsoc status
+   16  oc status
+   17  oc logs -f bc/greet
+   18  ls
+   19  cd nodejs-helloworld/
+   20  ls
+   21  vi package.json
+   22  git status
+   23  git add .
+   24  git commit -am "WIP"
+   25  git push origin
+   26  oc start-build bc/greet -f
+   27  oc start-build bc/greet --follow
+   28  python -m json.tool package.jsonn
+   29  python -m json.tool package.json
+   30  git status
+   31  git push
+   32  oc start-build bc/greet --follow
+   33  git log
+   34  oc get pods
+   35  oc logs greet-3-build
+   36  ls
+   37  vi package.json
+   38  vi app.js
+   39  git status
+   40  git add .
+   41  git commit -am "WIP2"
+   42  git push
+   43  git log
+   44  ls
+   45  ls -a
+   46  history
+   47  oc delete all -l app=greet
+   48  oc new-app --name greet nodejs:10 https://github.com/asolipu/DO288-apps#source-build --context-dir=nodejs-helloworld --build-env npm_config_registry=http://nexus-common.apps.cluster.domain.example.com/repository/nodejsoc status
+   49  oc new-app --name greet nodejs:10~https://github.com/asolipu/DO288-apps#source-build --context-dir=nodejs-helloworld --build-env npm_config_registry=http://nexus-common.apps.cluster.domain.example.com/repository/nodejs
+   50  oc get pods
+   51  oc logs greet-1-build -f
+   52  ls
+   53  cd DO288-apps/
+   54  lab container-build
+   55  lab container-build start
+   56  cd labs
+   57  cd ../DO288/labs/container-build/httpd-parent/
+   58  ls
+   59  vi Dockerfile 
+   60  source /usr/local/etc/ocp4.config
+   61  env
+   62  env| grep OCP
+   63  git checkout master
+   64  git checkout -b container-build
+   65  cd ~
+   66  cd DO288-apps/
+   67  git branch
+   68  git checkout master
+   69  git checkout -b container-build
+   70  git push -u origin container-build
+   71  vi container-build/Dockerfile 
+   72  ls container-build/src
+   73  ls container-build
+   74  oc login -u ${RHT_OCP4_DEV_USER}    -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+   75  oc new-project ${RHT_OCP4_DEV_USER}-container-build
+   76  oc new-app --name hola https://github.com/asolipu/DO288-apps#container-build --contextDir=container-build
+   77  oc new-app --name hola https://github.com/asolipu/DO288-apps#container-build --contextDir container-build
+   78  oc new-app --name hola https://github.com/asolipu/DO288-apps#container-build --context-dir container-build
+   79  oc status
+   80  oc get logs bc/hola
+   81  oc logs bc/hola
+   82  oc logs bc/hola -f
+   83  oc get pods
+   84  cd DO288-apps/
+   85  cd container-build/
+   86  ls
+   87  vi Dockerfile 
+   88  oc delete all -l app=hola
+   89  ls
+   90  vi Dockerfile 
+   91  git status
+   92  git add DOckerfile
+   93  git add Dockerfile
+   94  git commit -am "WIP"
+   95  git push origin
+   96  oc new-app --name hola    https://github.com/${RHT_OCP4_GITHUB_USER}/DO288-apps#container-build  --context-dir container-build
+   97   source /usr/local/etc/ocp4.config
+   98  oc new-app --name hola    https://github.com/${RHT_OCP4_GITHUB_USER}/DO288-apps#container-build  --context-dir container-build
+   99  oc status
+  100  oc logs bc/hola -f
+  101  vi Dockerfile 
+  102  git add Dockerfile
+  103  git commit -am "WIP"
+  104  git push origin
+  105  oc get all
+  106  oc start-build bc.hola
+  107  oc start-build bc/hola
+  108  oc logs bc/hola -f
+  109  oc get pods
+  110  oc logs hola-1-cxs4x -f
+  111  oc get svc
+  112  oc expose svc/hola
+  113  oc get route
+  114  curl http://hola-archana-solipuram-ally-com-container-build.apps.ocp-na1.prod.nextcle.com
+  115  lab container-build finish
+  116  lab app-config start
+  117  cd ../
+  118  cd app-config/
+  119  ls
+  120  vi app.js
+  121  oc project
+  122  history
+  123  source /usr/local/etc/ocp4.config
+  124  git checkout master
+  125  git checkout -b app-config
+  126  git push -u origin app-config
+  127  oc new-project ${RHT_OCP4_DEV_USER}-app-config
+  128  oc project
+  129  ls
+  130  ~/DO288/labs/app-config/oc-new-app.sh 
+  131  oc get pods
+  132  oc get pods -w
+  133  oc get pods 
+  134  oc logs myapp-1-s8sjr
+  135  oc get svc
+  136  oc expose svc/myapp
+  137  oc get route
+  138  curl myapp-archana-solipuram-ally-com-app-config.apps.ocp-na1.prod.nextcle.com
+  139  oc create cm myappcm --from-literal APP_MSG="Test Message"
+  140  oc create secret myappsecret --from-file=./myapp.sec 
+  141  oc create secret generic myappsecret --from-file=./myapp.sec 
+  142  oc describe secret/myappsecret
+  143  oc get secret/myappsecret
+  144  oc get secret/myappsecret -o yaml
+  145  oc set env dc/myapp --from configmap/myappcm
+  146  oc set env dc/myapp --from secret/myappsecret
+  147  ls
+  148  oc set env --help
+  149  oc get env dc/myapp
+  150  oc set env dc/myapp --list
+  151  oc set env -f myapp.json MYAPP_SEC-
+  152  oc set env dc/myapp MYAPP_SEC-
+  153  oc set env dc/myapp --list
+  154  oc set volume dc/myapp --add -t secret --name myappsec-vol -m /opt/app-root/secure --secret-name myappsecret
+  155  oc describe dc/myapp
+  156  oc get pods
+  157  history
+  158  curl myapp-archana-solipuram-ally-com-app-config.apps.ocp-na1.prod.nextcle.com
+  159  oc edit cm/myappcm
+  160  oc rollout latest dc/myapp
+  161  lab app-config finish 
+  162  cat /usr/local/etc/ocp4.config
+  163  source /usr/local/etc/ocp4.config
+  164  env | grep RHT
+  165  echo $RHT_OCP4_MASTER_API
+  166  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  167  oc new-project ${{RHT_OCP4_DEV_USER}-design-container
+  168  oc new-project ${RHT_OCP4_DEV_USER}-design-container
+  169  lab design-container start
+  170  oc new-app --name elvis https://github.com/asolipu/DO288-apps#design-container --context-dir=hello-java --dry-run
+  171  git branch
+  172  cd DO288-apps/
+  173  git branch
+  174  git checkout -b design-container
+  175  git branch -D design-container
+  176  git checkout master
+  177  git branch -D design-container
+  178  git checkout -b design-container
+  179  git push -u origin design-container
+  180  oc new-app --name elvis https://github.com/asolipu/DO288-apps#design-container --context-dir=hello-java --dry-run
+  181  oc new-app --name elvis https://github.com/asolipu/DO288-apps#design-container --context-dir=hello-java
+  182  oc logs bc/elvis -f
+  183  oc get pods
+  184  oc logs elvis-1-znzvb
+  185  ls
+  186  cd hello-java/
+  187  ls
+  188  vi Dockerfile 
+  189  git status
+  190  git add .
+  191  git commit -am "WIP"
+  192  git push
+  193  oc start-build bc/elvis
+  194  oc logs bc/elvis -f
+  195  oc get pods
+  196  oc logs elvis-2-s8cdp
+  197  oc get svc
+  198  oc whoami
+  199  oc expose svc/elvis --hostname elvis-archana-solipuram-ally-com-design-container.apps.cluster.domain.example.com --path api/hello
+  200  oc expose svc/elvis --hostname elvis-archana-solipuram-ally-com-design-container.apps.cluster.domain.example.com --path /api/hello
+  201  oc get route
+  202  curl elvis-archana-solipuram-ally-com-design-container.apps.cluster.domain.example.com/api/hello
+  203  curl http://elvis-archana-solipuram-ally-com-design-container.apps.cluster.domain.example.com/api/hello
+  204  cat /usr/local/etc/ocp4.config
+  205  oc delete route elvis
+  206  oc expose svc/elvis --hostname elvis-archana-solipuram-ally-com-design-container.apps.ocp-na1.prod.nextcle.com --path /api/hello
+  207  curl elvis-archana-solipuram-ally-com-design-container.apps.ocp-na1.prod.nextcle.com/api/hello
+  208  oc create cm appconfig --from-literal APP_MSG="Elvis lives"
+  209  oc set env dc/elvis --from configmap/appconfig
+  210  oc set env dc/elvis --list
+  211  oc get pods
+  212  history
+  213  curl http://elvis-archana-solipuram-ally-com-design-container.apps.cluster.domain.example.com/api/hello
+  214  curl elvis-archana-solipuram-ally-com-design-container.apps.ocp-na1.prod.nextcle.com/api/hello
+  215   lab design-container grade
+  216  history
+  217  read -p"PASSWORD: " -s password
+  218  echo $password
+  219   lab external-registry start
+  220  podman login -u ${RHT_OCP4_QUAY_USER} quay.io
+  221  podman login -u ${RHT_OCP4_QUAY_USER} https://quay.io
+  222  read -p "PASSWORD" -s pswd 
+  223  echo $pswd
+  224  podman login -u ${RHT_OCP4_QUAY_USER} -p ${pswd} https://quay.io
+  225  podman login -u ${RHT_OCP4_QUAY_USER}
+  226  podman login -u ${RHT_OCP4_QUAY_USER} quau.io
+  227  podman login -h
+  228  history
+  229  podman login -u ${RHT_OCP4_QUAY_USER} -p ${pswd} https://quay.io
+  230  podman login -u ${RHT_OCP4_QUAY_USER} -p ${pswd} quay.io
+  231  podman login -u${RHT_OCP4_QUAY_USER} -p${pswd} quay.io
+  232  podman login -u${RHT_OCP4_QUAY_USER} quay.io
+  233  podman login -u${RHT_OCP4_QUAY_USER} -p${pswd} quay.io
+  234  echo ${RHT_OCP4_QUAY_USER} 
+  235  source /usr/local/etc/ocp4.config
+  236  echo ${RHT_OCP4_QUAY_USER} 
+  237  podman login -u${RHT_OCP4_QUAY_USER} -p${pswd} quay.io
+  238  podman login -u ${RHT_OCP4_QUAY_USER} -p ${pswd} quay.io
+  239  skopeo copy
+  240  :exit
+  241  exit
+  242  skopeo copy oci:/home/student/DO288/labs/external-registry/ubi-sleep docker://quay.io/${RHT_OCP4_QUAY_USER}/ubi-sleep:1.0
+  243  source /usr/local/etc/ocp4.config
+  244  skopeo copy oci:/home/student/DO288/labs/external-registry/ubi-sleep docker://quay.io/${RHT_OCP4_QUAY_USER}/ubi-sleep:1.0
+  245  podman search quay.io/ubi-sleep
+  246  podman search quay.io/ ubi-sleep
+  247  podman search -h
+  248  podman search quay.io/ubi-sleep
+  249  skopeo copy oci:/home/student/DO288/labs/external-registry/ubi-sleep docker://quay.io/${RHT_OCP4_QUAY_USER}/ubi-sleep:1.0
+  250  podman search quay.io/asolipu/ubi-sleep
+  251  skopeo copy oci:/home/student/DO288/labs/external-registry/ubi-sleep docker://quay.io/${RHT_OCP4_QUAY_USER}/ubi-sleep:1.0
+  252  echo ${RHT_OCP4_QUAY_USER}
+  253  ls /home/student/DO288/labs/external-registry/ubi-sleep
+  254  podman search quay.io/asolipu/ubi-sleep
+  255  skopeo inspect   docker://quay.io/${RHT_OCP4_QUAY_USER}/ubi-sleep:1.0
+  256  history
+  257  lab external-registry finish
+  258  lab expose-registry start
+  259   source /usr/local/etc/ocp4.configoc login -u ${RHT_OCP4_DEV_USER}   -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  260   source /usr/local/etc/ocp4.config
+  261  oc login -u ${RHT_OCP4_DEV_USER}   -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  262  oc get route -n openshift-image-registry
+  263  INTERNAL_REGISTRY=$( oc get route default-route    -n openshift-image-registry -o jsonpath='{.spec.host}' ) lab expose-registry finish
+  264   lab image-stream finish
+  265  lab expose-image start
+  266  source /usr/local/etc/ocp4.config
+  267  oc new-project ${RHT_OCP4_DEV_USER}-common
+  268  podman login -u ${RHT_OCP4_DEV_USER} quay.io
+  269  echo ${RHT_OCP4_DEV_USER}
+  270  vi /usr/local/etc/ocp4.config
+  271  podman login -u ${RHT_OCP4_QUAY_USER} quay.io
+  272  echo ${RHT_OCP4_QUAY_USER} 
+  273  podman login -u ${RHT_OCP4_QUAY_USER} quay.io
+  274  skopeo copy oci:/home/student/DO288/labs/expose-image/php-info docker://quay.io/asolipu/php-info
+  275  skopeo inspect docker://quay.io/asolipu/php-info
+  276  oc project
+  277  oc import-image php-info --confirm --from quay.io/asolipu/php-info
+  278  oc create secret --help
+  279  oc create secret docker-registry
+  280  /home/student/DO288/labs/expose-image/create-secret.sh 
+  281  oc import-image php-info --confirm --from quay.io/asolipu/php-info
+  282  oc get is php-info
+  283  oc get istag
+  284  oc new-project ${RHT_OCP4_DEV_USER}-expose-image
+  285  oc adm policy add-role-to-group system:image-puller system:serviceaccounts:${RHT_OCP4_QUAY_USER}-expose-image
+  286  oc get pods
+  287  oc get all
+  288  oc new-app --name info -i quay.io/asolipu/php-info
+  289  oc new-app --name info -i ${RHT_OCP4_QUAY_USER}-common/php-info
+  290  oc new-app --name info -i ${RHT_OCP4_DEV_USER}-common/php-info
+  291  oc expose svc info
+  292   oc get route info
+  293  lab expose-image grade
+  294  oc get pods
+  295  oc logs info-1-874rq
+  296  oc get events
+  297  lab  build-app start
+  298  cd DO288
+  299  cd labs/
+  300  cd build-app/
+  301  ls
+  302   source /usr/local/etc/ocp4.config
+  303   oc login -u ${RHT_OCP4_DEV_USER} -p  ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  304  oc new-project ${RHT_OCP4_DEV_USER}-build-app
+  305  ./oc-new-app.sh 
+  306  cat oc-new-app.sh 
+  307  oc logs bc/simple -f
+  308  oc set env bc/simple --list
+  309  oc set env bc/simple npm_config_registry=http://${RHT_OCP4_NEXUS_SERVER}/repository/nodejs
+  310  oc set env bc/simple --list
+  311  oc expose svc/simple
+  312  oc get route
+  313  oc start-build bc/simple -F
+  314  oc get pods
+  315  oc get route
+  316  curl simple-archana-solipuram-ally-com-build-app.apps.ocp-na1.prod.nextcle.com   
+  317  oc describe bc/simple
+  318  oc describe bc/simple | grep Trigger
+  319  oc get bc/simple -o json
+  320  curl -S -s -X POST -k https://api.ocp-na1.prod.nextcle.com:6443/apis/build.openshift.io/v1/namespaces/archana-solipuram-ally-com-build-app/buildconfigs/simple/webhooks/EVpXvo-vMoNuFrqVO6N3/generic
+  321  oc get pods
+  322  oc logs bc/simple -f
+  323  lab build-app grade
+  324  history
+  325  oc delete project ${RHT_OCP4_DEV_USER}-build-app
+  326  lab s2i-scripts start
+  327  sudo podman run --name test -it rhscl/httpd-24-rhel7
+  328  sudo podman ps
+  329  sudo podman run --name test -it rhscl/httpd-24-rhel7 bash
+  330  sudo podman rm test
+  331  sudo podman run --name test -it rhscl/httpd-24-rhel7 bash
+  332  cd ..
+  333  cd ~/DO288-apps/s2i-scripts/
+  334  ls
+  335  vi index.html
+  336   oc new-project ${RHT_OCP4_DEV_USER}-s2i-scripts
+  337  oc new-app --name bonjour    httpd:2.4~https://github.com/${RHT_OCP4_GITHUB_USER}/DO288-apps    --context-dir s2i-scripts
+  338  oc get pods
+  339  oc logs -f bc/bonjour
+  340  opc expose svc bonjour
+  341  oc expose svc bonjour
+  342  oc get route
+  343  curl bonjour-archana-solipuram-ally-com-s2i-scripts.apps.ocp-na1.prod.nextcle.com
+  344  curl bonjour-archana-solipuram-ally-com-s2i-scripts.apps.ocp-na1.prod.nextcle.com/info.html
+  345  oc get pods
+  346  oc logs bonjour-1-vc7zs
+  347  history
+  348  oc delete project ${RHT_OCP4_DEV_USER}-s2i-scripts
+  349  sudo podman rm test
+  350  lab s2i-scripts finish
+  351  ls
+  352  ls -l
+  353  cd .s2i
+  354  ls
+  355  cd bin
+  356  ls
+  357  pwd
+  358  lab custom-s2i start
+  359  pwd
+  360  cd ~/DO288/labs/custom-s2i/
+  361  ls
+  362  ls -lrt
+  363  s2i
+  364  s2i create s2i-do288-go s2i-do288-go
+  365  ls
+  366  cd s2i-do288-go/
+  367  ls
+  368  vi Dockerfile 
+  369  exit
+  370  oc project
+  371  lab custom-s2i start
+  372  oc project
+  373  source /usr/local/etc/ocp4.config
+  374   oc login -u ${RHT_OCP4_DEV_USER}    -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  375  oc project
+  376  source /usr/local/etc/ocp4.config
+  377  oc project
+  378  source /usr/local/etc/ocp4.config
+  379  oc project$
+  380  oc project
+  381  oc project[1;5A
+  382  ls
+  383  history
+  384  source /usr/local/etc/ocp4.config
+  385   oc login -u ${RHT_OCP4_DEV_USER}    -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  386  lab apache-s2i start
+  387  s2i version
+  388  s2i create s2i-do288-httpd s2i-do88-httpd
+  389  tree s2i-do288-httpd
+  390  s2i create s2i-do288-httpd s2i-do288-httpd
+  391  tree s2i-do288-httpd
+  392  vi s2i-do288-httpd/Dockerfile 
+  393  cp ~/DO288/labs/apache-s2i/Dockerfile ~/s2i-do288-httpd/
+  394  cp -h
+  395  cp --help
+  396  cp -Rv ~/DO288/labs/apache-s2i/s2i ~/s2i-do288-httpd/
+  397  vi /home/student/s2i-do288-httpd/s2i/bin/usage
+  398  vi /home/student/s2i-do288-httpd/s2i/bin/assemble
+  399  vi /home/student/s2i-do288-httpd/s2i/bin/run
+  400  vi /home/student/s2i-do288-httpd/s2i/bin/assemble
+  401  rm -f ~/s2i-do288-httpd/s2i/bin/save-artifacts
+  402  cd s2i-do288-httpd/
+  403  sudo podman build -t s2i-do288-httpd .
+  404  ls
+  405  s2i build --help
+  406  s2i build test s2i-do288-httpd test-httpd --dry-run
+  407  ls -R test
+  408  cat test/test-app
+  409  ls test/test-app
+  410  cat test/test-app/index.html 
+  411  vi test/test-app/index.html 
+  412  s2i build test/test-app/ s2i-do288-httpd test-httpd --as-dockerfile test --dry-run
+  413  mkdir -p s2i-sample-app
+  414  s2i build test/test-app/ s2i-do288-httpd s2i-sample-app --as-dockerfile s2i-sample-app
+  415  s2i build test/test-app/ s2i-do288-httpd s2i-sample-app --as-dockerfile s2i-sample-app/Dockerfile
+  416  cd s2i-sample-app/
+  417  sudo podman build -t s2i-sample-app .
+  418  sudo podman images
+  419  sudo podman run --name sample-app s2i-sample-app
+  420  sudo podman run --name sample-app -d -p 8080:8080  s2i-sample-app
+  421  sudo podman run --name sample-app -d -p 8080:8080  s2i-sample-app-2
+  422  sudo podman run --name sample-app2 -d -p 8080:8080  s2i-sample-app
+  423  curl localhost:8080
+  424  ls
+  425  cd ..
+  426  tree s2i-sample-app
+  427  vi s2i-sample-app/Dockerfile 
+  428  history
+  429  git repo
+  430  git status
+  431  cd ~
+  432  cd DO288-apps/
+  433  git status
+  434  git branch -r
+  435  ls
+  436  cd s2i-scripts
+  437  ls
+  438  mkdir command-history
+  439  vi ch_5_apache-s2i
+  440  cd ~
+  441  sudo podman images
+  442  oc project
+  443  sudo podman ps
+  444  sudo podman stop sample-app2
+  445  sudo podman rm sample-app
+  446  sudo podman ps
+  447  sudo podman login  -u ${RHT_OCP4_QUAY_USER} quay.io
+  448  sudo skopeo copy containers-storage:localhost/s2i-do288-httpd docker://quay.io/${RHT_OCP4_QUAY_USER}/s2i-do288-httpd
+  449  ls
+  450  oc project
+  451  cat /usr/local/etc/ocp4.config
+  452  oc login -u $RHT_OCP4_DEV_USER -p RHT_OCP4_DEV_PASSWORD RHT_OCP4_MASTER_API
+  453  oc new-project $RHT_OCP4_DEV_USER-apacher-s2i
+  454  oc import-image s2i-do288-httpd --from quay.io/${RHT_OCP4_DEV_USER}/s2i-do288-httpd --confirm
+  455  podman login -u asolipu quay.io
+  456  oc create secret generic quayio --from-file .dockerconfigjson=${XDG_RUNTIME_DIR}/containers/auth.json --type kubernetes.io/dockerconfigjson
+  457  oc secrets link builder quayio
+  458  oc get is
+  459  oc delete is s2i-do288-httpd
+  460  history
+  461  oc import-image s2i-do288-httpd --from quay.io/${RHT_OCP4_DEV_USER}/s2i-do288-httpd --confirm
+  462  oc delete is s2i-do288-httpd
+  463  oc import-image s2i-do288-httpd --from quay.io/${RHT_OCP4_QUAY_USER}/s2i-do288-httpd --confirm
+  464  oc get is
+  465  oc new-app --name hello s2i-do288-httpd~https://github.com/asolipu/DO288-app --context-dir-html-helloworld
+  466  oc new-app --name hello s2i-do288-httpd~https://github.com/asolipu/DO288-apps --context-dir=html-helloworld
+  467  oc get status
+  468  oc status
+  469  oc expose svc/hello
+  470  oc get route
+  471  curl http://hello-archana-solipuram-ally-com-apacher-s2i.apps.ocp-na1.prod.nextcle.com:8080
+  472  curl http://hello-archana-solipuram-ally-com-apacher-s2i.apps.ocp-na1.prod.nextcle.com
+  473  oc get pods
+  474  curl http://hello-archana-solipuram-ally-com-apacher-s2i.apps.ocp-na1.prod.nextcle.com
+  475  curl http://hello-archana-solipuram-ally-com-apacher-s2i.apps.ocp-na1.prod.nextcle.com:8080
+  476  history
+  477  exit
+  478  lab custom-s2i start
+  479  cd ~/DO288/labs/
+  480  cd custom-s2i/
+  481  ls
+  482  ls -R s2i-do288-go/
+  483  cd s2i/bin
+  484  ls
+  485  vi assemble
+  486  vi run
+  487  cd ..
+  488  ls
+  489  vi s2i-do288-go/Dockerfile 
+  490  pwd
+  491  vi Dockerfile 
+  492  cp Dockerfile  s2i-do288-go/
+  493  vi s2i-do288-go/Dockerfile 
+  494  cd s2i-do288-go/
+  495  ls -lrt
+  496  sudo podman build -t s2i-do288-go .
+  497  sudo podman images
+  498  ls
+  499  cd test
+  500  mkdir ~/s2i-go-app
+  501  cd test
+  502  lsls
+  503  ls
+  504  cd test-app/
+  505  ls
+  506  cat index.html 
+  507  pwd
+  508  vi index.html 
+  509  cd ../..
+  510  s2i build test/test-app/ s2i-do288-go s2i-go-app --as-dockerfile ~/s2i-go-app/Dockerfile
+  511  vi /home/student/s2i-go-app/Dockerfile
+  512  cd ~/s2i-go-app/
+  513  ls
+  514  sudo podman build -t s2i-go-app .
+  515  sudo podman run --name go-test -d -u 1234 -p 8080:8080 --dry-run
+  516  sudo podman images
+  517  sudo podman run --name go-test -d -u 1234 -p 8080:8080 s2i-go-app
+  518  curl localhost:8080
+  519  curl http://localhost:8080/user1
+  520  sudo podman ps
+  521  sudo podman ps -a
+  522  sudo podman logs go-test
+  523  vi Dockerfile 
+  524  sudo podman images
+  525  sudo podman run --name test -it s2i-do288-go bash
+  526  sudo podman stop test
+  527  sudo podman rm  test
+  528  cd ~/DO288/labs/
+  529  cd custom-s2i/
+  530  ls
+  531  cd s2i-do288-go/
+  532  cd s2i/bin/
+  533  ls
+  534  vi run
+  535  vi assemble 
+  536  history
+  537  pwd
+  538  history
+  539  pwd
+  540  cd ../..
+  541  ls
+  542  pwd
+  543  cd ..
+  544  ls
+  545  cd test
+  546  pwd
+  547  cd test-app/
+  548  ls
+  549  cd ../..
+  550  ls
+  551  cd s2i
+  552  ls
+  553  cd bin
+  554  ls
+  555  vi run
+  556  vi assemble
+  557  cd ../..
+  558  pwd
+  559  ls
+  560  cp -Rf s2i s2i-do288-go/
+  561  vi s2i-do288-go/s2i/bin/assemble 
+  562  vi s2i-do288-go/s2i/bin/run
+  563  cp -Rf test s2i-do288-go/
+  564  vi s2i-do288-go/test/test-app/app.go 
+  565  sudo podman images
+  566  sudo podman rmi s2i-do288-go
+  567  sudo podman images
+  568  history
+  569  cd s2i-do288-go/
+  570  sudo podman build -t s2i-do288-go .
+  571  sudo podman images
+  572  sudo podman run --name test -it s2i-do288-go bash
+  573  cd ~/s2i-go-app/
+  574  vi Dockerfile 
+  575  sudo podman build -t s2i-go-app . --dry-run
+  576  sudo podman images
+  577  sudo podman rmi s2i-go-app
+  578  sudo podman ps
+  579  sudo podman ps -a
+  580  sudo podman rm $(sudo podman ps -aq)
+  581  sudo podman ps -a
+  582  sudo podman rmi s2i-go-app
+  583  sudo podman images
+  584  cd ~/DO288/labs/custom-s2i/
+  585  cd s2i-do288-go/
+  586  ls
+  587  vi test/test-app/app.go 
+  588  s2i create test/test-app/ s2i-do288-go s2i-go-app --as-dockerfile ~/s2i-go-app/Dockerfile
+  589  s2i build test/test-app/ s2i-do288-go s2i-go-app --as-dockerfile ~/s2i-go-app/Dockerfile
+  590  cd ~/s2i-go-app/
+  591  sudo podman build -t s2i-go-app .
+  592  sudo podman images
+  593  sudo podman run --name go-test -u 1234 -p 8080:8080 -d s2i-go-app
+  594  curl http://localhost:8080
+  595  curl http://localhost:8080/user1
+  596  sudo podman stop go-test
+  597  sudo podman login -u asolipu quay.io
+  598  skopeo copy container-storage:localhost/s2i-do288-go docker://quay.io/asolipu/s2i-do288-go
+  599  skopeo copy containers-storage:localhost/s2i-do288-go docker://quay.io/asolipu/s2i-do288-go
+  600  sudo skopeo copy containers-storage:localhost/s2i-do288-go docker://quay.io/asolipu/s2i-do288-go
+  601  sudo podman login -u asolipu quay.io
+  602  history
+  603  exit
+  604  history > ~/command-history/Ch5_Final_Lab
+  605  cp -Rf command-history ~/DO288-apps/
+  606  cd DO288-apps/
+  607  git branch
+  608  ls command-history/
+  609  rm command-history/
+  610  rm -rf command-history/
+  611  git checkout -b worklog
+  612  git checkout  worklog
+  613  history
+  614  cd ~
+  615  cp -Rf command-history ~/DO288-apps/
+  616  git status
+  617  cd ~/DO288-apps/
+  618  git status
+  619  git add command-history/
+  620  git commit -am "worklog"
+  621  git push
+  622  exit
+  623  ls
+  624  cd command-history/
+  625  ls
+  626  vi Ch5_Final_Lab 
+  627  oc new-project $RHT_OCP4_DEV_USER-custom-s2i
+  628  oc new-project ${RHT_OCP4_DEV_USER}-custom-s2i
+  629  vi Ch5_Final_Lab 
+  630  oc whoami
+  631  history
+  632  echo ${RHT_OCP4_DEV_USER}
+  633  source /usr/local
+  634  source /usr/local/etc/ocp4.config
+  635  echo ${RHT_OCP4_DEV_USER}
+  636  oc new-project ${RHT_OCP4_DEV_USER}-custom-s2i
+  637  oc get is
+  638  podman login -u asolipu quay.io
+  639  oc create secret generic quayio --from-file .dockerconfigjson=${XDG_RUNTIME_DIR}/containers/auth.json --type io.kubernetes/dockerconfigjson
+  640  oc delete secret quayio
+  641  oc create secret generic quayio --from-file .dockerconfigjson=${XDG_RUNTIME_DIR}/containers/auth.json --type kubernetes.io/dockerconfigjson
+  642  oc secrets link builder quayio
+  643  oc get is
+  644  oc import-image --help
+  645  oc import-image s2i-do288-go --from quay.io/${RHT_OCP4_QUAY_USER}/s2i-do288-go  --confirm
+  646  oc get is
+  647  cd ~/DO288-apps
+  648  git checkout master
+  649  git checkout -b custom-s2i
+  650   git push -u origin custom-s2i
+  651  oc new-app --name greet s2i-do288-go~https://github.com/${$RHT_OCP4_QUAY_USER}/DO288-apps#custom-s2i --context-dir=go-hello
+  652  echo {$RHT_OCP4_QUAY_USER}
+  653  oc new-app --name greet s2i-do288-go~https://github.com/$RHT_OCP4_QUAY_USER/DO288-apps#custom-s2i --context-dir=go-hello
+  654  oc status
+  655  oc get pods
+  656  oc logs bc/greet -f
+  657  history
+  658  source /usr/local/etc/ocp4.config
+  659  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  660  sudo podman login -u asolipu quay.io
+  661  sudo skopeo copy containers-storage:localhost/s2i-do288-go docker://quay.io/asolipu/s2i-do288-go
+  662  oc get svc
+  663  oc expose svc/greet
+  664  oc get pods
+  665  oc get routes
+  666  curl greet-archana-solipuram-ally-com-custom-s2i.apps.ocp-na1.prod.nextcle.com
+  667  oc get pods
+  668  cd DO288-apps/go-hello
+  669  git branch
+  670  ls
+  671  mkdir -p .s2i/bin
+  672  ls -lR
+  673  ls -lRa
+  674  oc get pods
+  675  curl greet-archana-solipuram-ally-com-custom-s2i.apps.ocp-na1.prod.nextcle.com
+  676  curl http://greet-archana-solipuram-ally-com-custom-s2i.apps.ocp-na1.prod.nextcle.com/user1
+  677  vi /.s2i/bin/run
+  678  cd .s2i
+  679  cd bin
+  680  vi run
+  681  oc get pods
+  682  oc rsh greet-1-wlwdw  bash
+  683  oc exec -it greet-1-wlwdw cat /usr/libexec.s2i/run
+  684  oc exec -it greet-1-wlwdw cat /usr/libexec/s2i/run
+  685  rm run
+  686  vi run
+  687  git status
+  688  git add .
+  689  ls
+  690  git status
+  691  git commit -am "Modify s2i workflow of the go builder image"
+  692  git push
+  693  oc start-build bc/greet -f
+  694  oc start-build bc/greet -F
+  695  history
+  696  curl http://greet-archana-solipuram-ally-com-custom-s2i.apps.ocp-na1.prod.nextcle.com/user1
+  697  oc delete project ${RHT_OCP4_DEV_USER}-custom-s2i
+  698   sudo podman rm go-test
+  699   sudo podman rmi -f $(sudo podman images -aq)
+  700  lab custom-s2i finish
+  701  history
+  702  cd ~/DO288-apps
+  703  ls
+  704  git branch
+  705  git branch worklog
+  706  git checkout worklog
+  707  ls
+  708  cd command-history/
+  709  ls
+  710  vi Ch5_Final_Lab 
+  711  git status
+  712  git add .
+  713  git commit -am WIP
+  714  git push
+  715  oc version
+  716  oc get secret
+  717  oc project
+  718  oc projects
+  719  oc project archana-solipuram-ally-com-design-container
+  720  oc export is, bc, svc, secret --as-template test-template test-template.yaml
+  721  oc get is
+  722  oc get is --export
+  723  oc explain route
+  724  oc explain route.spec
+  725  oc explain route.spec.tsl
+  726  5~5~5~5~5~5~5~oc explain route.spec.tls
+  727  lab create-template start
+  728  source /usr/local/etc/ocp4.config
+  729  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  730  oc project ${RHT_OCP4_DEV_USER}-quotes-dev
+  731  oc get pvc
+  732  oc get route
+  733  oc get pods
+  734  vi quotes-template-clean.yaml
+  735  git worklog
+  736  git checkout worklog
+  737  cd ~/DO288-apps/
+  738  git checkout worklog
+  739  cd command-history/
+  740  mkdir CH6
+  741  vi Gdd_Ex_1
+  742  cp ~/quotes-template-clean.yaml .
+  743  oc get is -o yaml --export > /tmp/is.yaml
+  744  cp /tmp/is.yaml /tmp/is-clean.yaml
+  745  vi /tmp/is-clean.yaml
+  746  cp /tmp/is-clean.yaml .
+  747  ls
+  748  cd CH6
+  749  cp /tmp/is-clean.yaml .
+  750  ls
+  751  cd ..
+  752  rm is-clean.yaml 
+  753  cd CH6/
+  754  oc get bc -o yaml --export > /tml/bc.yaml
+  755  oc get bc -o yaml --export > /tmp/bc.yaml
+  756  cp /tmp/bc.yaml/tmp/bc-clean.yaml
+  757  cp /tmp/bc.yaml /tmp/bc-clean.yaml ./bc-clean.yaml
+  758  cp /tmp/bc.yaml /tmp/bc-clean.yaml 
+  759  cp /tmp/bc.yaml bc-clean.yaml
+  760   oc get -o yaml --export dc > /tmp/dc.yaml
+  761  cp /tmp/dc.yaml /tmp/dc-clean.yaml
+  762  cp /tmp/dc.yaml dc-clean.yaml
+  763   oc get -o yaml --export svc > /tmp/svc.yaml
+  764  cp /tmp/svc.yaml /tmp/svc-clean.yaml
+  765  cp /tmp/svc.yaml svc-clean.yaml
+  766  oc get -o yaml --export route > /tmp/route.yaml
+  767  cp /tmp/route.yaml /tmp/route-clean.yaml
+  768  cp /tmp/route.yaml route-clean.yaml
+  769  oc get -o yaml --export pvc > /tmp/pvc.yaml
+  770  cp /tmp/pvc.yaml /tmp/pvc-clean.yaml
+  771  cp /tmp/pvc.yaml pvc-clean.yaml
+  772  ls
+  773  git status
+  774  git add .
+  775  git commit WIP
+  776  git commit -am WIP
+  777  git push
+  778  lab review-template start
+  779  git status
+  780  git branch
+  781  git status
+  782  git add .
+  783  git status
+  784  git add  all
+  785  cd ../..
+  786  git status
+  787  git add all
+  788  git add .
+  789  git status
+  790  git commit -am WIP
+  791  git push
+  792  git status
+  793  lab review-template start
+  794   cp ~/DO288/labs/review-template/todo-template.yaml \     ~/todo-template.yaml
+  795   cp ~/DO288/labs/review-template/todo-template.yaml     ~/todo-template.yaml
+  796  git add .
+  797  git commit -am WIP
+  798  git push
+  799  git status
+  800  cp ~/todo-template.yaml command-history/CH6/
+  801  git add .
+  802  git commit -am WIP
+  803  git push
+  804  git status
+  805  cd ~
+  806  ls
+  807  cd command-history/
+  808  ls
+  809  vi Ch5_Final_Lab 
+  810  cd ~
+  811  ls
+  812  cd command-history/
+  813  ls
+  814  vi Ch5_Final_Lab 
+  815  history
+  816  vi /tmp/dc-clean.yaml
+  817  git status
+  818  cd DO288-apps
+  819  git status
+  820  git pull
+  821  oc project
+  822  oc get pvc
+  823  vi ~/quotes-template-clean.yaml 
+  824  cd command-history/CH6/
+  825  ls -lrt
+  826  vi is-clean.yaml 
+  827  vi ~/DO288/labs/create-template/is-clean.yaml 
+  828  vi ~/DO288/labs/create-template/bc-clean.yam
+  829  vi ~/DO288/labs/create-template/bc-clean.yaml
+  830  vi ~/DO288/labs/create-template/svc-clean.yaml 
+  831  vi ~/DO288/labs/create-template/bc-clean.yaml
+  832  vi ~/DO288/labs/create-template/dc-clean.yaml
+  833  ls
+  834  vi ~/DO288/labs/create-template/is-clean.yam
+  835  vi ~/DO288/labs/create-template/is-clean.yaml
+  836  ls
+  837  vi pvc-clean.yaml 
+  838  vi ~/DO288/labs/create-template/pvc-clean.yaml
+  839  vi ~/DO288/labs/create-template/route-clean.yaml
+  840  vi ~/DO288/labs/create-template/svc-clean.yaml
+  841  vi ~/DO288/labs/create-template/quotes-template-clean.yaml 
+  842  cd ../..
+  843  git pull
+  844  cd command-history/CH6/
+  845  ls
+  846  cp quotes-template-clean.yaml quotes-template-clean.yaml-bkp
+  847  vi ~/DO288/labs/create-template/parameters.yaml 
+  848  cp quotes-template-clean.yaml quotes-template.yaml
+  849  rm quotes-template-clean.yaml-bkp 
+  850  cat ~/DO288/labs/create-template/parameters.yaml >> quotes-template.yaml 
+  851  vim quotes-template.yaml 
+  852  history
+  853  vi ~/DO288/labs/create-template/quotes-template.yaml 
+  854  vi ~/DO288/solutions/create-template/quotes-template.yaml 
+  855  vim quotes-template.yaml 
+  856  git status
+  857  oc new-app -f quotes-template -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -pPASSWORD=mypass --dry-run
+  858  vim quotes-template.yaml 
+  859  oc project
+  860  oc new-project ${RHT_OCP4_DEV_USER}-myquotes
+  861  source /usr/local/etc/ocp4.config
+  862  vi  /usr/local/etc/ocp4.config
+  863  cd ..
+  864  ls
+  865  vi Ch5_Final_Lab 
+  866  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  867  oc new-project ${RHT_OCP4_DEV_USER}-myquotes
+  868  history
+  869  oc new-app -f quotes-template -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -pPASSWORD=mypass --dry-run
+  870  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass --dry-run
+  871  cd CH6
+  872  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass --dry-run
+  873  ls
+  874  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass --dry-run
+  875  vim quotes-template.yaml 
+  876  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass --dry-run
+  877  vim quotes-template.yaml 
+  878  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass --dry-run
+  879  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass
+  880  oc status
+  881  oc get all
+  882  oc delete all -l app=quotesapi
+  883  oc delete all -l app=quotesdb
+  884  oc get all
+  885  oc get bc
+  886  oc delete bc/quotesapi
+  887  oc get pvc
+  888  cd DO288-apps/command-history/CH6
+  889  vi dc-clean.yaml 
+  890  ls
+  891  cp quotes-template.yaml quotes-template.yaml-bkp
+  892  vi quotes-template.yaml
+  893  vi /tmp/dc-clean.yaml 
+  894  vi quotes-template.yaml
+  895  oc delete svc/quotesapi
+  896  oc get all -l app=quotesapi
+  897  oc delete all -l app=quotesapi
+  898  oc delete all -l app=quotesdb
+  899  oc get pvc
+  900  oc delete pvc quotesdb-claim
+  901  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass
+  902  oc delete pvc quotesdb-claim
+  903  oc get pvc
+  904  oc delete all -l app=quotesdb
+  905  oc delete all -l app=quotesapi
+  906  oc delete pvc quotesdb-claim
+  907  vi quotes-template.yaml
+  908  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass
+  909  vi quotes-template.yaml
+  910  oc get bc
+  911  git status
+  912  rm quotes-template.yaml-bkp 
+  913  ls
+  914  history
+  915  history>history-full
+  916  vi history-full
+  917  ls
+  918  git status
+  919  mv history-full Gd_Ex_1
+  920  rm hist-temp 
+  921  git status
+  922  git add .
+  923  git commit -am WIP
+  924  git push
+  925  ls
+  926  vi todo-template.yaml 
+  927  history > log
+  928  vi log
+  929  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  930  vi log
+  931  source /usr/local/etc/ocp4.config
+  932  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  933  oc new-project ${RHT_OCP4_DEV_USER}-review-template
+  934  vi ~/DO288/labs/review-template/oc-new-app.sh 
+  935  vi todo-template.yaml 
+  936  cp todo-template.yaml ~
+  937  ls -lrt ~/todo-template.yaml 
+  938  cp  ~/DO288/labs/review-template/oc-new-app.sh ~
+  939  vi ~/oc-new-app.sh 
+  940  ~/oc-new-app.sh 
+  941  ~19
+  942  source /usr/local/etc/ocp4.config
+  943  vi  /usr/local/etc/ocp4.config
+  944  vi ~/oc-new-app.sh 
+  945  oc delete all -l app=todo
+  946  oc get all
+  947  oc delete all -l app=todoapp
+  948  oc get all
+  949  oc delete all -l app=tododb
+  950  oc get all
+  951  oc get pods
+  952  ~/oc-new-app.sh 
+  953  history
+  954  source /usr/local/etc/ocp4.config
+  955  vi /usr/local/etc/ocp4.config
+  956  echo $RHT_OCP4_WILDCARD_DOMAIN
+  957  vi ~/oc-new-app.sh 
+  958  oc delete all -l app=todo
+  959  oc delete all -l app=todoapp
+  960  oc delete all -l app=tododb
+  961  oc get all
+  962  ~/oc-new-app.sh 
+  963  oc delete all -l app=todoapp
+  964  oc delete all -l app=tododb
+  965  vi ~/oc-new-app.sh 
+  966   ~/oc-new-app.sh 
+  967  oc get pods
+  968  curl http://archana-solipuram-ally-com-todo.apps.ocp-na1.prod.nextcle.com/todo/index.html
+  969  oc get pods
+  970  oc logs tododb-1-lgxgv
+  971  curl http://archana-solipuram-ally-com-todo.apps.ocp-na1.prod.nextcle.com/todo/api/items-count
+  972  lab review-template grade
+  973  oc status
+  974  git status
+  975  ls
+  976  cp ~/oc-new-app.sh .
+  977  git status
+  978  rm log
+  979  git add .
+  980  git status
+  981  git branch
+  982  git commit -am WIP
+  983  git push
+  984  history > CH6_Lab
+  985  vi CH6_Lab 
+  986  git add .
+  987  git commit -am WIP
+  988  git push
+  989  history
+  990  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass
+  991  cd ~/DO288-apps/command-history/CH6
+  992  ls
+  993  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass
+  994  history
+  995  vi ~/DO288/solutions/create-template/quotes-template.yaml
+  996  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass --dry-run
+  997  oc new-app -f quotes-template.yaml -p APP_GIT_URL=https://github.com/asolipu/DO288-apps -p PASSWORD=mypass 
+  998  history
+  999  history > hist-temp
+ 1000  vi hist-temp 
+ 1001  cd DO288-apps/command-history/
+ 1002  ls
+ 1003  history > full_hist_11_3_19
