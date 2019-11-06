@@ -1,0 +1,42 @@
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+  labels:
+      app: quotesapi
+    name: quotesapi
+  spec:
+    clusterIP: 172.30.207.115
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      app: quotesapi
+      deploymentconfig: quotesapi
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+    labels:
+      app: quotesdb
+    name: quotesdb
+  spec:
+    clusterIP: 172.30.41.31
+    ports:
+    - name: 3306-tcp
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+    selector:
+      app: quotesdb
+      deploymentconfig: quotesdb
+    sessionAffinity: None
+    type: ClusterIP
