@@ -1,0 +1,41 @@
+   16  history
+   17  lab app-deploy start
+   18  cd ..
+   19  git checkout -b app-deploy
+   20  git push -u origin app-deploy
+   21  vi ~/DO288-apps/quip/src/main/java/com/redhat/training/example/Quip.java
+   22  oc new-project ${RHT_OCP4_DEV_USER}-app-deploy
+   23  /home/student/DO288/labs/app-deploy/oc-new-app.sh
+   24  oc logs -f bc/quip
+   25  oc get pods
+   26  oc logs quip-1-26jgt
+   27  oc expose svc/quip
+   28  oc get route
+   29  curl quip-archana-solipuram-ally-com-app-deploy.apps.ocp-na1.prod.nextcle.com
+   30  curl quip-archana-solipuram-ally-com-app-deploy.apps.ocp-na1.prod.nextcle.com/ready
+   31  oc set probe dc/quip --readiness --get-url=http://:8080/ready --initial-delay-seconds=2 --timeout-seconds=1 --period-seconds=1
+   32* oc set probe dc/quip --liveness --get-url=http://:8080/ready --initial-delay-seconds=2 --timeout-seconds=1 --period-seconds=1[A
+   33  oc get probe dc/quip --list
+   34  oc set probe dc/quip --list
+   35  oc get pods
+   36  curl quip-archana-solipuram-ally-com-app-deploy.apps.ocp-na1.prod.nextcle.com/ready
+   37  curl quip-archana-solipuram-ally-com-app-deploy.apps.ocp-na1.prod.nextcle.com
+   38  oc get pods
+   39  oc logs quip-3-zw5h9
+   40  oc describe dc/quip
+   41  oc describe pod quip-3-zw5h9
+   42  curl quip-archana-solipuram-ally-com-app-deploy.apps.ocp-na1.prod.nextcle.com
+   43  curl quip-archana-solipuram-ally-com-app-deploy.apps.ocp-na1.prod.nextcle.com/ready
+   44  cat ~/DO288/labs/app-deploy/app-change.sh
+   45   ~/DO288/labs/app-deploy/app-change.sh
+   46  oc start-build bc/quip
+   47  oc logs bc/quip -f
+   48  oc get pods
+   49  curl quip-archana-solipuram-ally-com-app-deploy.apps.ocp-na1.prod.nextcle.com
+   50  curl quip-archana-solipuram-ally-com-app-deploy.apps.ocp-na1.prod.nextcle.com/ready
+   51  oc get pods
+   52  oc logs quip-4-fjjwc
+   53  git status
+   54  git checkout worklog
+   55  git status
+   56  history > Ch7_Ex3
