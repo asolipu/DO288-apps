@@ -1,0 +1,39 @@
+   16  history
+   17  lab strategy start
+   18  oc new-project ${RHT_OCP4_DEV_USER}-strategy
+   19  ~/DO288/labs/strategy/oc-new-app.sh 
+   20  oc get pods -wide name
+   21  oc get pods wide 
+   22  oc get pods -o wide
+   23  oc get all -l app=mysql
+   24  oc describe dc/mysql
+   25  oc edit  dc/mysql
+   26  oc get dc/mysql -o yaml > mysql-dc.yaml
+   27  oc edit  dc/mysql
+   28* oc set triggers dc/mysql --from-config --remove[B
+   29  oc edit  dc/mysql
+   30  oc describe dc/mysql
+   31  ls
+   32  vi mysql-dc.yaml 
+   33  ~/DO288/labs/strategy/post-hook.sh 
+   34  oc describe dc/mysql
+   35  history
+   36  oc get dc/mysql -o yaml > mysql-dc-patched.yaml
+   37  oc edit  dc/mysql
+   38  oc rollout latest dc/mysql
+   39  oc get pods -o wide
+   40  oc get pods -w
+   41  oc get pods
+   42  oc logs mysql-2-hook-post
+   43  oc logs mysql-2-deploy
+   44  oc set env dc/mysql HOOK_RETRIES=5
+   45  oc rollout latest dc/mysql
+   46  oc get pods -w
+   47  oc get pods
+   48  oc logs mysql-3-dmsvc
+   49  oc get pods
+   50  oc rsh mysql-3-dmsvc
+   51   oc delete project ${RHT_OCP4_DEV_USER}-strategy
+   52  lab strategy finish
+   53  history
+   54  history > Ch7_Ex2
