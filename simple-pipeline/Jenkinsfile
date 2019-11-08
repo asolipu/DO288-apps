@@ -25,7 +25,7 @@ pipeline {
 
   stage('Hello') {
   steps{
-   sh `echo Hello from stage2 `
+   sh 'echo Hello from stage2'
 }
   }
      //  ADD AN APPROVAL STAGE
