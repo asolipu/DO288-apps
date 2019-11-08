@@ -32,7 +32,7 @@ pipeline {
 
 stage('Approval') {
 steps{
-timeout(time: 60, unit: 'MINUTES`)
+timeout(time: 60, unit: 'MINUTES')
 input(message: "Move to Stage 3?")
 }
 }
