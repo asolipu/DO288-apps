@@ -1,0 +1,69 @@
+     lab simple-pipeline start
+  940   oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  941  oc new-project ${RHT_OCP4_DEV_USER}-ci-cd
+         oc get templates -n openshift | grep jenkins
+        oc new-app jenkins-ephemeral -p MEMORY_LIMIT=2048Mi
+  981  vi ~/DO288/labs/simple-pipeline/simple-pipeline.yaml
+  990  cd DO288-apps/
+  991  git checkout master
+  992  git checkout -b simple-pipeline
+  995  git push -u origin simple-pipeline
+  996  vi ~/DO288-apps/simple-pipeline/Jenkinsfile
+  997  git status
+  998  git add .
+  999  git commit -am "WIP"
+ 1000  git push
+ 1004  source /usr/local/etc/ocp4.config
+ 1013  oc new-project ${RHT_OCP4_DEV_USER}-simple-pipeline
+ 1038  oc project archana-solipuram-ally-com-ci-cd
+ 1041  oc get route/jenkins -o jsonpath '{.spec.host}'{"\n"}
+ 1042  oc get route/jenkins -o jsonpath='{.spec.host}{"\n"}'
+ 1043  oc get builds
+ 1044  oc logs simple-pipeline-1
+ 1045  oc logs build/simple-pipeline-1
+ 1046  oc project
+ 1047  oc projects
+ 1048  oc project archana-solipuram-ally-com-simple-pipeline
+ 1049  oc get bc
+ 1050  oc get builds
+ 1051  oc logs build/simple-pipeline-1
+ 1052  oc get bc/simple-pipeline -o yaml
+ 1053  history
+ 1054  vi ~/DO288/labs/simple-pipeline/simple-pipeline.yaml
+ 1055  oc create -f ~/DO288/labs/simple-pipeline/simple-pipeline.yaml
+ 1056  oc delete bc/simple-pipeline
+ 1057  oc create -f ~/DO288/labs/simple-pipeline/simple-pipeline.yaml
+ 1058  oc start-build bc/simple-pipeline
+ 1059  oc policy add-role-to-user edit system:serviceaccount:${RHT_OCP4_DEV_USER}-ci-cd:jenkins -n ${RHT_OCP4_DEV_USER}-simple-pipeline
+ 1060  history
+ 1061  oc delete bc/simple-pipeline
+ 1062  oc create -f ~/DO288/labs/simple-pipeline/simple-pipeline.yaml
+ 1063  oc start-build bc/simple-pipeline
+ 1064  vi ~/DO288/labs/simple-pipeline/simple-pipeline.yaml
+ 1065  oc delete bc/simple-pipeline
+ 1066  oc create -f ~/DO288/labs/simple-pipeline/simple-pipeline.yaml
+ 1067  oc start-build bc/simple-pipeline
+ 1068  vi simple-pipeline/Jenkinsfile 
+ 1069  git status
+ 1070  git add .
+ 1071  git commit -am "WIP"
+ 1072  git push
+ 1073  oc start-build bc/simple-pipeline
+ 1074  vi simple-pipeline/Jenkinsfile 
+ 1075  git add .
+ 1076  git commit -am "WIP"
+ 1077  git push
+ 1078  oc start-build bc/simple-pipeline
+ 1079  vi simple-pipeline/Jenkinsfile
+ 1080  git add .
+ 1081  git commit -am "WIP"
+ 1082  git push
+ 1083  oc start-build bc/simple-pipeline
+ 1084  vi simple-pipeline/Jenkinsfile
+ 1085  git add .
+ 1086  git commit -am "WIP"
+ 1087  git push
+ 1088  oc start-build bc/simple-pipeline
+ 1089  lab simple-pipeline finish
+ 1090  git checkout worklog
+ 1091  history > Ch8_Ex1
