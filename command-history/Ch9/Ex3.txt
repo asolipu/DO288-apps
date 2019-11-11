@@ -1,0 +1,54 @@
+   23  history
+   24  lab micro-java start
+   25  source /usr/local/etc/ocp4.config
+   26   oc login -u ${RHT_OCP4_DEV_USER}   -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+   28  cd ~/DO288-apps/micro-java
+   29  git checkout master
+   31  git checkout -b micro-config
+   32  git push -u origin micro-config
+   41  cd src/main/java/com/redhat/training/openshift/hello/
+   43  vi JaxRsActivator.java 
+   44  vi HelloResource.java 
+   45  cd ../../../..
+   46  cd ../..
+   48  cd fabric8/
+   54  vi pom.xml 
+   55  mvn fabric8:resource
+   56  ls
+   57  cd target/classes/META-INF/fabric8/openshift/
+   58  ls
+   59  vi hello-deploymentconfig.yml 
+   60  vi hello-route.yml 
+   62  vi hello-service.yml 
+   65  oc new-project ${RHT_OCP4_DEV_USER}-micro-java
+   68  cd ~/DO288-apps/micro-java/
+   69  mvn fabric8:deploy
+   70  cd src
+   71  cd main/fabric8/
+   72  ls
+   73  cd ../..
+   74  oc status
+   75  oc get al
+   76  oc get all
+   77  oc get route
+   79  ROUTEURL=$(oc get route hello -o jsonpath '{.spec.host}')
+   80  oc get route hello -o jsonpath '{.spec.host}'
+   81  oc get route hello -o jsonpath '{.spec.host}{"\n"}'
+   82  oc get route hello 
+   83  ROUTEURL=$(oc get route hello --template='{{.spec.host}}')
+   84  echo $ROUTEURL
+   85  curl $ROUTEURL
+   86  curl $ROUTEURL/api/hello
+   87  git branch
+   88  cd ..
+   89   cp -v ~/DO288/labs/micro-java/*.yml   ./src/main/fabric8/
+   90  vi ./src/main/fabric8/cm.yml 
+   91  vi ./src/main/fabric8/deployment.yml 
+   94  git status
+   95  git add .
+   96  git commit -am "Add YAML Fragments"
+   97  git push
+   98  mvn fabric8:deploy
+   99  oc get  pods
+  102  curl $ROUTEURL/api/hello
+  103  history
