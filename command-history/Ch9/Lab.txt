@@ -1,0 +1,40 @@
+history -c
+lab todo-migrate start
+source /usr/local/etc/ocp4.config
+
+oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+cd ~/DO288-apps/todo-api-micro
+git checkout master
+
+git checkout -b todo-migrate
+git push -u origin todo-migrate
+
+ oc new-project ${RHT_OCP4_DEV_USER}-todo-migrate
+ DBHOST=$( echo ${RHT_OCP4_WILDCARD_DOMAIN} | sed 's/apps/mysql/')
+ mysqlshow -h$DBHOST -utodoapp -predhat123 todo
+ oc create service externalname tododb --external-name $DBHOST
+ oc get svc
+ 
+ mvn fabric8:deploy
+ oc get pods
+ oc logs 
+ ### create the YAML fragments for CM and DC and apply to resolve application config errors, no need to do a build and deploy as the config is externalized
+ mvn fabric8:resource-apply
+ oc set env dc/todo-api --list  //or
+ oc rsh <podname > env | grep DATABASE  // or
+ oc describe dc/todo-api
+ 
+ oc get cm/db-config
+APP_ROUTE=$(oc get route/todo-api --template='{{.spec.host}}') //use --template option and not -o jsonpath for apps deployed with fabric8
+curl -s $APP_ROUTE/todo/api/items/6
+git status
+git add .
+git commit -am " Final Lab work"
+git push
+ lab todo-migrate grade
+ lab todo-migrate finish
+ history > Lab.txt
+ 
+ 
+ 
+ 

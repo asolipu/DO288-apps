@@ -1,0 +1,12 @@
+kind: DeploymentConfiguration
+apiVersion: v1
+metadata:
+  name:todoapp
+spec:
+  template:
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: db-config
+         
