@@ -1,0 +1,96 @@
+
+
+lab nexus-service start  
+
+source /usr/local/etc/ocp4.config
+
+oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+
+
+cd ~/DO288-apps/nexus3
+git checkout master
+grep VOLUME Dockerfile
+
+grep NEXUS_DATA Dockerfile
+
+grep ENV Dockerfile
+
+sudo podman build -t nexus3 .
+
+sudo podman login -u ${RHT_OCP4_QUAY_USER} quay.io
+
+skopeo containers-storage:localhost/nexus3 docker://quay.io/${RHT_OCP4_QUAY_USER}/nexus3
+
+ cp ~/DO288/labs/nexus-service/nexus-template.yaml ~/nexus-template.yaml
+ 
+ grep -A1 "kind: DockerImage" ~/nexus-template.yaml 
+ 
+ grep -B1 -A6 limits: ~/nexus-template.yaml 
+ INSTALL4J_ADD_VM_PARAMS
+ vi  ~/nexus-template.yaml  //overrideINSTALL4J_ADD_VM_PARAMS which set heap size
+ - env:
+            - name: 
+              value: -Djava.util.prefs.userRoot=/nexus-data/javaprefs
+              
+   ### add liveness and readiness probes
+              
+    - apiVersion: v1
+  kind: DeploymentConfig
+  ...output omitted...
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - "-c"
+              - >
+               curl -siu admin:$(cat /nexus-data/admin.password)
+               http://localhost:8081/service/metrics/healthcheck |
+               grep healthy | grep true
+            ...output omitted...
+            
+            
+            readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - "-c"
+              - >
+               curl -siu admin:$(cat /nexus-data/admin.password)
+               http://localhost:8081/service/metrics/ping |
+               grep pong
+            ...output omitted...
+            initialDelaySeconds: 120...output omitted...
+            timeoutSeconds: 30
+            
+              volumeMounts:
+          - mountPath: /nexus-data
+            name: nexus-data
+            volumes:
+        - name: nexus-data
+          persistentVolumeClaim:
+            claimName: nexus-data-pvc
+            
+            - apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+    name: nexus-data-pvc
+    
+  
+  oc new-project ${RHT_OCP4_DEV_USER}-nexus-service
+  podman login -u ${RHT_OCP4_QUAY_USER} quay.io
+  oc create secret generic quay.io --from-file .dockerconfigjson=${XDG_RUNTIME_DIR}/containers/auth.json  --type io.kubernetes.io/dockerconfigjson
+  oc secrets link default quay.io
+  
+  oc new-app --name nexus3 --f ~/nexus-template.yaml -p HOSTNAME=nexus-${RHT_OCP4_DEV_USER}.${RHT_OCP4_WILDCARD_DOMAIN}
+  oc get pods
+  oc expose svc/nexus3
+  HOSTNAME= $(oc get route nexus3 -o jsonpath '{.spec.host}{"\n"}')
+  curl -is $HOSTNAME
+  
+  oc delete project ${RHT_OCP4_DEV_USER}-nexus-service
+  skopeo delete quay.io/${RHT_OCP4_QUAY_USER}/nexus3
+  sudo podman rmi nexus3
+  
+  
+   lab nexus-service finish

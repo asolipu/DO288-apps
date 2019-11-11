@@ -1,0 +1,31 @@
+#### Ch 9 Gdd Ex 1
+
+lab external-service start   // this deploys the todoapp app 
+
+source /usr/local/etc/ocp4.config
+
+oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+
+oc project ${RHT_OCP4_DEV_USER}-external-service
+
+oc status
+
+oc get pods
+
+oc rsh <podname for todoapp> env | grep DATABASE
+
+HOSTNAME=$(oc get route todoapp -o jsonpath='{.spec.host}')
+echo ${HOSTNAME}
+
+curl -si http://${HOSTNAME}/todo/api/items/6 //it fails as it cannot connect to exteranl DB
+
+//Find the DB host name, same as OCP4 wildcard domain, replace apps with mysql
+
+echo ${RHT_OCP4_WILDCARD_DOMAIN} | sed 's/apps/mysql/'
+mysqlshow -hmysql.cluster.domain.example.com -utodoapp -predhat123 todo
+
+oc create svc externalname tododb --external-name mysql.cluster.domain.example.com
+oc get svc
+curl -si http://${HOSTNAME}/todo/api/items/6 //now it works
+
+oc delete project ${RHT_OCP4_DEV_USER}-external-service
