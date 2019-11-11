@@ -19,7 +19,8 @@ sudo podman build -t nexus3 .
 
 sudo podman login -u ${RHT_OCP4_QUAY_USER} quay.io
 
-skopeo containers-storage:localhost/nexus3 docker://quay.io/${RHT_OCP4_QUAY_USER}/nexus3
+sudo skopeo copy containers-storage:localhost/nexus3 docker://quay.io/${RHT_OCP4_QUAY_USER}/nexus3
+
 
  cp ~/DO288/labs/nexus-service/nexus-template.yaml ~/nexus-template.yaml
  
@@ -80,7 +81,7 @@ skopeo containers-storage:localhost/nexus3 docker://quay.io/${RHT_OCP4_QUAY_USER
   oc new-project ${RHT_OCP4_DEV_USER}-nexus-service
   podman login -u ${RHT_OCP4_QUAY_USER} quay.io
   oc create secret generic quay.io --from-file .dockerconfigjson=${XDG_RUNTIME_DIR}/containers/auth.json  --type io.kubernetes.io/dockerconfigjson
-  oc secrets link default quay.io
+  oc secrets link default quay.io --for pull // for pull is necessary
   
   oc new-app --name nexus3 --f ~/nexus-template.yaml -p HOSTNAME=nexus-${RHT_OCP4_DEV_USER}.${RHT_OCP4_WILDCARD_DOMAIN}
   oc get pods
