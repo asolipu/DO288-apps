@@ -1,0 +1,42 @@
+history -c
+lab review-service start
+source /usr/local/etc/ocp4.config
+
+oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+cd ~/DO288-apps/todo-backend
+git checkout master
+
+git checkout -b review-service
+git push -u origin review-service
+
+ oc new-project ${RHT_OCP4_DEV_USER}-review-service
+
+
+ oc project ${RHT_OCP4_DEV_USER}-review-service
+ 
+ oc new-app --name tododb --docker-image registry.access.redhat.com/rhscl/mysql-57-rhel7 -e MYSQL_USER=todoapp -e MYSQL_PASSWORD=mypass -e MYSQL_DATABASE=todo
+  oc get pod
+   oc set triggers dc/tododb --from-config --remove
+    kind: Secret
+ apiVersion: v1
+ metadata:
+   name: tododb
+ stringData:
+   user: todoapp
+   password: mypass
+   name: todo
+   svc: 
+   
+ oc create -f secret.yaml  // or
+ 
+ oc create secret generic tododb --from-literal user=todoapp --from-literal password=mypass
+    
+    oc set env dc/tododb --prefix MYSQL_ --from secret/tododb
+     oc set env dc/tododb --list
+ oc new-app --name backend nodejs:6~https://github.com/asolipu/DO288-apps#review-service --contrxt-dir=todo-backend --build-env npm_config_registry=http://${RHT_OCP4_NEXUS_SERVER}/repository/nodejs
+
+oc set env dc/backend --from secret/tododb --prefix DATABASE_
+oc rollout latest dc/tododb
+
+ oc get pod
+  oc rsh tododb-2-dgxwm env | grep MYSQL_
