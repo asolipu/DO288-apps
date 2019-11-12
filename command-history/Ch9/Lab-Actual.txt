@@ -1,0 +1,81 @@
+  954  lab todo-migrate start
+  955  source /usr/local/etc/ocp4.config
+  956  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  957  cd ~/DO288-apps/todo-api-micro
+  958  git checkout master
+  959  git checkout -b todo-migrate
+  960  git push -u origin todo-migrate
+  961  oc new-project ${RHT_OCP4_DEV_USER}-todo-migrate
+  962  DBHOST=$( echo ${RHT_OCP4_WILDCARD_DOMAIN} | sed 's/apps/mysql/')
+  963  mysqlshow -h$DBHOST -utodoapp -predhat123 todo
+  964  oc create service externalname tododb --external-name $DBHOST
+  965  oc get svc
+  966   mvn fabric8:deploy
+  967  oc get pods
+  968  oc logs todo-api-1-svxf9
+  969  git branch worklog
+  970  git checkout worklog
+  971  pwd
+  972  cp -v ~/DO288-apps/command-history/Ch9/cm.yaml ./src/main/fabric8/
+  973  cp -v ~/DO288-apps/command-history/Ch9/deployment.yml ./src/main/fabric8/
+  974  mvn fabric8:resource-apply
+  975  oc get pods -w
+  976  oc get pods
+  977  oc logs todo-api-3-sl8dp
+  978  oc logs todo-api-1-svxf9
+  979  oc get dc
+  980  oc rsh todo-api-1-svxf9 env | grep DATABASE_
+  981  oc get pods
+  982  oc set env dc/todo-api --list
+  983  oc get cm
+  984  oc describe cm db-config
+  985  oc get cm db-config -o yaml
+  986  oc describe dc/todo-api
+  987  vi src/main/fabric8/deployment.yml 
+  988  history
+  989  mvn fabric8:resource-apply
+  990  history
+  991  oc get pods -w
+  992  oc get pods
+  993  oc logs todo-api-5-65p5w
+  994  history
+  995  oc describe dc/todo-api
+  996  history
+  997  oc set env dc/todo-api --list
+  998  oc logs todo-api-5-65p5w
+  999  cp ~/DO288/solutions/todo-migrate/deployment.yml src/main/fabric8
+ 1000  mvn fabric8:resource-apply
+ 1001  history
+ 1002  oc describe dc/todo-api
+ 1003  oc get cm -o yaml
+ 1004  oc get cm db-config -o yaml
+ 1005  APP_ROUTE=$(oc get route/todo-api --template='{{.spec.host}}') 
+ 1006  curl -s $APP_ROUTE/todo/api/items/6
+ 1007  git status
+ 1008  cd DO288-apps/
+ 1009  git status
+ 1010  git branch
+ 1011  git checkout todo-migrate
+ 1012  git status
+ 1013  git commit -am "Add YAML Fragments"
+ 1014  git add .
+ 1015  git commit -am "Add YAML Fragments"
+ 1016  git status
+ 1017  git push
+ 1018  git checkout worklog 
+ 1019  git status
+ 1020  ls
+ 1021  history
+ 1022  cp ~/DO288/solutions/todo-migrate/deployment.yml command-history/CH9/
+ 1023  cp ~/DO288/solutions/todo-migrate/deployment.yml command-history/CH9
+ 1024  ls command-history/Ch9/
+ 1025  git status
+ 1026  history
+ 1027  git add .
+ 1028  git commit -am "Add YAML Fragments"
+ 1029  git push
+ 1030  git status
+ 1031  history | grep 'todo-migrate start' -A100
+ 1032  lab todo-migrate grade
+ 1033  lab todo-migrate finish
+ 1034  history | grep 'todo-migrate start' -A102 > command-history/Ch9/Lab-Actual.txt
