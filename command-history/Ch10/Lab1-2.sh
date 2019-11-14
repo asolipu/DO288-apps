@@ -1,5 +1,9 @@
 #!/bin/bash
-### // Build the To Do List front-end container image,
+### Build the To Do List front-end container image,
+source /usr/local/etc/ocp4.config
+oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+git checkout  review-dockerfile
+cd ~/DO288-apps/todo-frontend
  sudo podman build -t todo-frontend  .
  
 ## // Test the image

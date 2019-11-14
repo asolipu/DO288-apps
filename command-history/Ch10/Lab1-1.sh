@@ -5,11 +5,12 @@ source /usr/local/etc/ocp4.config
 
 oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
 cd ~/DO288-apps/todo-frontend
-git checkout master
+## uncomment below section when running for first time
+#git checkout master
+#git checkout -b review-dockerfile
+#git push -u origin review-dockerfile
 
-git checkout -b review-dockerfile
-git push -u origin review-dockerfile
-
+git checkout  review-dockerfile
  oc new-project ${RHT_OCP4_DEV_USER}-review-dockerfile
  oc new-project ${RHT_OCP4_DEV_USER}-review-common
  
