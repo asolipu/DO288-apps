@@ -13,4 +13,13 @@ echo "Making s2I changes"
 
 mkdir -p .s2i/bin
 echo " COpying s2i scripts for backend"
-cp -fv ~/DO288/labs/review-service/lifecycle.sh ./.s2i/bin
+cp -fv ~/DO288/labs/review-service/lifecycle.sh ./.s2i/bin/assemble
+
+## edit the lifecycle script with call to s2i assemble s
+oc describe istag nodejs:6 -n openshift \| grep io.opens
+# call /usr/libexec/s2i/assemble in your custom assemble
+   
+   
+   echo " ## edit the custom assemble script with call to s2i assemble :  call /usr/libexec/s2i/assemble in your custom assemble"
+   
+exit
