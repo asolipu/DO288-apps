@@ -1,0 +1,54 @@
+    2  source /usr/local/etc/ocp4.config
+    3  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+    4  lab review-multicontainer start
+    5  oc project 
+    6  oc project ${RHT_OCP4_DEV_USER}-review-common
+    7  git branch
+    8  cd ~/DO288-apps/
+    9  git branch
+   10  mkdir solutions
+   11  cp -rfv ~/DO288/solutions/ solutions
+   12  rm -rf solutions
+   13  cp -rfv ~/DO288/solutions/ .
+   14  ls
+   15  git status
+   16  git add solutions/
+   17  git commit -am "wip"
+   18  git push
+   19  git pull
+   20  git status
+   21  git push
+   22  grep '^  kind' ~/command-history/Ch10/todoapp.yaml 
+   23  oc process -f  ~/command-history/Ch10/todoapp.yaml --parameters
+   24  oc project openshift
+   25  oc describe template nodejs-mongodb-example -n openshift
+   26  oc get template nodejs-mongodb-example -n openshift --export > nodejs-eample.yaml
+   27  vi nodejs-eample.yaml 
+   28  oc get --help
+   29  oc get template openshift/nodejs-mongodb-example  --export 
+   30  oc get template/nodejs-mongodb-example  --export 
+   31  oc get template/nodejs-mongodb-example  --export -n openshift
+   32  oc get template/nodejs-mongodb-example  --export=true -n openshift
+   33  oc get template/nodejs-mongodb-example -n openshift -o yaml > nodejs-mongodb-example.yaml
+   34  cp nodejs-mongodb-example.yaml ~/command-history/Ch10
+   35  vi nodejs-mongodb-example.yaml 
+   36  oc new-app -f ~/todo-app.yaml -p HOSTNAME=y -p BACKEND=z -p PASSWORD=test --dry-run
+   37  oc new-app -f ~command-history/Ch10/todo-app.yaml -p HOSTNAME=y -p BACKEND=z -p PASSWORD=test --dry-run
+   38  oc new-app -f ~/command-history/Ch10/todo-app.yaml -p HOSTNAME=y -p BACKEND=z -p PASSWORD=test --dry-run
+   39  oc new-app -f ~/command-history/Ch10/todoapp.yaml -p HOSTNAME=y -p BACKEND=z -p PASSWORD=test --dry-run
+   40* oc 
+   41  oc create -f ~/command-history/Ch10/todoapp.yaml 
+   42  oc process todoapp --parameters
+   43  oc new-project ${RHT_OCP4_DEV_USER}-review-multicontainer
+   44* oc new-app review-common/todoapp --dry-run archana-solipuram-ally-com-review-common
+   45  oc new-app todoapp --dry-run archana-solipuram-ally-com-review-common
+   46  oc new-app todoapp --dry-run 
+   47  oc policy add-role-to-group -n ${RHT_OCP4_DEV_USER}-review-common system:image-puller system:serviceaccounts:${RHT_OCP4_DEV_USER}-review-multicontainer
+   48  oc new-app ${RHT_OCP4_DEV_USER}-review-common/todoapp -p PASSWORD=redhat -p CLEAN_DATABASE=false -p HOSTNAME=todoui-${RHT_OCP4_DEV_USER}.${RHT_OCP4_WILDCARD_DOMAIN} -p BACKEND=todoapi-${RHT_OCP4_DEV_USER}.${RHT_OCP4_WILDCARD_DOMAIN; }
+   49  oc new-app ${RHT_OCP4_DEV_USER}-review-common/todoapp -p PASSWORD=redhat -p CLEAN_DATABASE=false -p HOSTNAME=todoui-${RHT_OCP4_DEV_USER}.${RHT_OCP4_WILDCARD_DOMAIN} -p BACKEND=todoapi-${RHT_OCP4_DEV_USER}.${RHT_OCP4_WILDCARD_DOMAIN}
+   50  oc get pods
+   51  oc get pods -w
+   52  oc get pods 
+   53  oc get pods -w
+   54  history
+   55  history > command-history/Ch10/history
