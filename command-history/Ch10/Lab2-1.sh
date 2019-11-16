@@ -18,7 +18,7 @@ git push -u origin review-service
 oc get pod
 oc expose svc/tododb
 oc set triggers dc/tododb --from-config --remove
-oc create -f secret.yaml
+oc create -f ../command-history/Ch10/secret.yaml
 oc set env dc/tododb --from secret/tododb --prefix MYSQL_ --overwrite=true
 
 oc set triggers dc/tododb --auto
