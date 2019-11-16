@@ -1,9 +1,10 @@
 #!/bin/bash
 
 echo "Performing the S2I build..."
+echo " Calling S2I assemble script AS WELL from custom script"
 
 #TODO: add call to the standard S2I assemble script
-
+/usr/libexec/s2i/assemble
 rc=$?
 
 if [ $rc -eq 0 ]; then
