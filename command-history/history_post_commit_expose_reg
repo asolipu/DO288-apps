@@ -1,0 +1,56 @@
+b expose-registry start
+ 1002  oc delete project archana-solipuram-ally-com-common
+ 1003  source /usr/local/etc/ocp4.config
+ 1004  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+ 1005  oc delete project archana-solipuram-ally-com-common
+ 1006  lab expose-registry start
+ 1007  oc get route -n openshift-image-registry
+ 1008  oc patch config   cluster -n openshift-image-registry --type merge -p '{"spec":{"defaultRoute":true}}' --dry-run
+ 1009  oc patch config   cluster -n openshift-image-registry --type merge -p '{"spec":{"defaultRoute":true}}' --dry-runINTERNAL_REGISTRY=$( oc get route default-route -n openshift-image-registry -o jsonpath='{.spec.host}' )
+ 1010  INTERNAL_REGISTRY=$( oc get route default-route -n openshift-image-registry -o jsonpath='{.spec.host}' )
+ 1011  oc new-project ${RHT_OCP4_DEV_USER}-common
+ 1012  TOKEN=$(oc whoami -t)
+ 1013  echo $TOKEN
+ 1014  lab image-stream start
+ 1015  lab post-commit start
+ 1016  oc projectt
+ 1017  oc project
+ 1018  oc project ${RHT_OCP4_DEV_USER}-post-commit
+ 1019  oc status
+ 1020  oc get svc
+ 1021  oc get route
+ 1022  curl builds-for-managers-archana-solipuram-ally-com-post-commit.apps.ocp-na1.prod.nextcle.com
+ 1023  ~/DO288/labs/post-commit/oc-new-app.sh 
+ 1024  cat ~/DO288/labs/post-commit/oc-new-app.sh 
+ 1025  oc get pods
+ 1026  cat ~/DO288/labs/post-commit/create-hook.sh
+ 1027  cd DO288-apps/
+ 1028  git status
+ 1029  git chckout worklog
+ 1030  git checkout worklog
+ 1031  cp ~/DO288/labs/ ./command-history/labs
+ 1032  ls ~/DO288/labs/
+ 1033  ls ~/DO288/solutions
+ 1034  ls ./command-history/labs
+ 1035  cp -rfv ~/DO288/labs/ ./command-history/labs
+ 1036  cp -rfv ~/DO288/solutions/ ./command-history/solutions
+ 1037  git status
+ 1038  git add .
+ 1039  git commit -am "for reference"
+ 1040  git push
+ 1041  git push -f
+ 1042  history 
+ 1043  cat ~/DO288/labs/post-commit/create-hook.sh
+ 1044   ~/DO288/labs/post-commit/create-hook.sh
+ 1045  oc describe bc/hook
+ 1046  oc describe bc/hook | grep Post
+ 1047  oc start-build bc/hook -F
+ 1048  echo ${OPENSHIFT_BUILD_NAMESPACE}
+ 1049  echo ${OPENSHIFT_BUILD_SOURCE}
+ 1050  oc set env bc/hook DEVELOPER="archh"
+ 1051  oc set env bc/hook OPENSHIFT_BUILD_NAMESPACE="archh"
+ 1052  oc set env bc/hook OPENSHIFT_BUILD_SOURCE="archh"
+ 1053  history
+ 1054  oc start-build bc/hook -F
+ 1055  history
+
